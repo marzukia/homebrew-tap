@@ -5,8 +5,10 @@ This module contains tests for the CLI entry point and commands.
 
 import json
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
+
 
 import pytest
 
@@ -322,7 +324,7 @@ class TestConsoleScript:
     def test_console_script_exists(self):
         """Test that charted console script is available via python -m."""
         result = subprocess.run(
-            ["charted", "--help"],
+            [sys.executable, "-m", "charted", "--help"],
             capture_output=True,
             text=True,
             cwd="/home/andryo/git/charted",
@@ -341,9 +343,17 @@ class TestConsoleScript:
             json.dump(data, f)
 
         result = subprocess.run(
-            ["charted", "create", "bar", str(output_path), "--data", str(data_file)],
+            [
+                sys.executable,
+                "-m",
+                "charted",
+                "create",
+                "bar",
+                str(output_path),
+                "--data",
+                str(data_file),
+            ],
             capture_output=True,
-            text=True,
             cwd="/home/andryo/git/charted",
         )
 
