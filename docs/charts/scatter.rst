@@ -58,49 +58,37 @@ Change marker shape and size::
 
    # Circle markers (default)
    chart = ScatterChart(
-       data=[[1, 2], [2, 3], [3, 5]],
-       theme={
-           "scatter": {
-               "marker": "circle",
-               "marker_size": 6.0
-           }
-       }
+       x_data=[1, 2, 3],
+       y_data=[[2, 3, 5]],
+       series_styles=[{"marker_shape": "circle", "marker_size": 6.0}]
    )
 
    # Square markers
    chart = ScatterChart(
-       data=[[1, 2], [2, 3], [3, 5]],
-       theme={
-           "scatter": {
-               "marker": "square",
-               "marker_size": 8.0
-           }
-       }
+       x_data=[1, 2, 3],
+       y_data=[[2, 3, 5]],
+       series_styles=[{"marker_shape": "square", "marker_size": 8.0}]
    )
 
    # Diamond markers
    chart = ScatterChart(
-       data=[[1, 2], [2, 3], [3, 5]],
-       theme={
-           "scatter": {
-               "marker": "diamond",
-               "marker_size": 7.0
-           }
-       }
+       x_data=[1, 2, 3],
+       y_data=[[2, 3, 5]],
+       series_styles=[{"marker_shape": "diamond", "marker_size": 7.0}]
    )
 
 Custom Marker Styling::
 
    chart = ScatterChart(
-       data=[[1, 2], [2, 3], [3, 5]],
-       theme={
-           "scatter": {
-               "marker": "circle",
-               "marker_size": 8.0,
-               "marker_border_width": 2.0,
-               "marker_border_color": "#333333"
-           }
-       }
+       x_data=[1, 2, 3],
+       y_data=[[2, 3, 5]],
+       series_styles=[{
+           "marker_shape": "circle",
+           "marker_size": 8.0,
+           "fill": "#FF6B6B",
+           "stroke": "#333333",
+           "stroke_width": 2.0
+       }]
    )
 
 With Trend Lines
@@ -115,15 +103,11 @@ Combine scatter with line chart for trend visualization::
    y = [math.sin(i * 0.5) * 30 + (i % 7 - 3) * 5 for i in range(20)]
 
    chart = ScatterChart(
-       data=[[list(zip(x, y))]],
+       x_data=x,
+       y_data=[y],
        labels=["Noisy Data"],
        title="Signal with Trend",
-       theme={
-           "scatter": {
-               "marker": "circle",
-               "marker_size": 4.0
-           }
-       }
+       series_styles=[{"marker_shape": "circle", "marker_size": 4.0}]
    )
 
 Configuration Options
