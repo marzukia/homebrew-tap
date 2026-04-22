@@ -19,6 +19,73 @@ class Chart(Svg):
     y_stacked: bool = False
     render_axes: bool = True
 
+    def _repr_svg_(self) -> str:
+        """Return SVG string for Jupyter notebook display.
+
+        This method is automatically called by Jupyter to render
+        SVG charts inline in notebooks.
+
+        Returns:
+            str: The SVG string representation of the chart.
+        """
+        return self.svg
+
+    def to_svg(self) -> str:
+        """Get the SVG string representation of the chart.
+
+        Returns:
+            str: The complete SVG markup as a string.
+        """
+        return self.svg
+
+    def to_markdown(self, alt_text: str | None = None, width: str | None = None) -> str:
+        """Generate markdown markup for the chart.
+
+        Args:
+            alt_text: Alternative text for the image. Defaults to title if available.
+            width: Optional width specification (e.g., '500px' or '100%').
+
+        Returns:
+            str: Markdown image syntax with data URL.
+
+        Example:
+            >>> chart = BarChart(data=[1, 2, 3], labels=['a', 'b', 'c'])
+            >>> print(chart.to_markdown())
+            ![chart](data:image/svg+xml,{encoded_svg})
+        """
+        from urllib.parse import quote
+
+        svg_data = self.svg
+        alt = alt_text or self.title or "chart"
+
+        # Encode SVG as data URL
+        encoded = quote(svg_data)
+        data_url = f"data:image/svg+xml,{encoded}"
+
+        if width:
+            return f"![{alt}]({data_url}){{width={width}}}"
+        return f"![{alt}]({data_url})"
+
+    def _repr_html_(self) -> str:
+        """Return HTML wrapper for the chart.
+
+        This method is called by IPython/Jupyter when displaying
+        objects in HTML format. Wraps the SVG in a container div.
+
+        Returns:
+            str: HTML string with the embedded SVG.
+        """
+        return f'<div style="display: inline-block;">{self.svg}</div>'
+
+    def save(self, path: str) -> None:
+        """Save the chart to a file.
+
+        Args:
+            path: File path to save the SVG file.
+        """
+        with open(path, "w") as f:
+            f.write(self.svg)
+
     def __init__(
         self,
         width: float = 500,
