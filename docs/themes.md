@@ -36,13 +36,9 @@ chart = BarChart(
 chart.save("accessible_chart.svg")
 ```
 
-### Using Theme Constants
+### Using Theme.load()
 
-For type-safe theme selection:
-
-### Using Theme Constants
-
-For type-safe theme selection:
+Load themes by name string:
 
 ```python
 from charted import BarChart
@@ -54,16 +50,6 @@ chart = BarChart(
     theme=Theme.load("dark")  # Alternative: "light", "high-contrast"
 )
 ```
-from charted import BarChart
-from charted.utils.themes import Theme
-
-chart = BarChart(
-    data=[120, 180, 210],
-    labels=["Q1", "Q2", "Q3"],
-    theme=Theme.DARK  # Alternative: Theme.LIGHT, Theme.HIGH_CONTRAST
-)
-```
-
 ## Theme Structure
 
 A theme is a dictionary with the following structure:
