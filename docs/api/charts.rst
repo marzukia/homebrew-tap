@@ -233,12 +233,11 @@ Data Loading API
 
 .. autofunction:: charted.load_json
 
-   Load data from a JSON file.
+   Load data from a JSON file. Auto-detects format based on JSON structure.
 
    **Parameters:**
 
    - ``filepath`` — Path to JSON file
-   - ``format`` — JSON format: "simple", "array_of_objects", or "structured"
 
    **Returns:** Tuple of (x_values, y_values, column_names)
 
@@ -252,8 +251,8 @@ Data Loading API
       // Array of objects
       [{"label": "Q1", "value": 120}, {"label": "Q2", "value": 180}]
 
-      // Structured
-      {"labels": ["Q1", "Q2"], "data": [[120, 180]], "series_names": ["Revenue"]}
+       // Object with data and labels
+       {"data": [120, 180, 210], "labels": ["Q1", "Q2", "Q3"], "title": "Sales"}
 
 CLI API
 -------
