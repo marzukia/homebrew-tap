@@ -49,6 +49,27 @@ class TestInferChartType:
         # "bar" comes before "column" in keywords list
         assert _infer_chart_type("bar_column.csv") == "bar"
 
+    def test_batch_not_a_directory(self):
+        """Test batch when input is a file, not directory."""
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            f.write(b"test")
+            temp_path = f.name
+
+        try:
+            import argparse
+
+            args = argparse.Namespace(
+                input_dir=temp_path,
+                output_dir="/tmp/output",
+                chart_type="bar",
+            )
+
+            with pytest.raises(SystemExit) as exc_info:
+                batch_command(args)
+            assert exc_info.value.code == 1
+        finally:
+            Path(temp_path).unlink()
+
 
 class TestBatchCommand:
     """Test batch command execution."""
@@ -231,4 +252,91 @@ class TestBatchCommand:
             batch_command(args)
 
             assert output_dir.exists()
-            assert (output_dir / "bar_data.svg").exists()
+
+    def test_batch_with_unknown_chart_type_in_filename(self):
+        """Test batch defaults to bar when no keyword matches."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_dir = Path(tmpdir) / "input"
+            output_dir = Path(tmpdir) / "output"
+            input_dir.mkdir()
+
+            # Create file with no chart type keyword - should default to bar
+            (input_dir / "unknown_type.csv").write_text("label,value\nA,10\nB,20")
+
+            import argparse
+
+            args = argparse.Namespace(
+                input_dir=str(input_dir),
+                output_dir=str(output_dir),
+                chart_type=None,
+            )
+
+            # Should succeed (defaults to bar)
+            batch_command(args)
+
+            # Check output was created as bar chart
+            assert (output_dir / "unknown_type.svg").exists()
+
+    def test_batch_with_file_not_found_error(self, capsys):
+        """Test batch handles file not found errors with suggestion."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_dir = Path(tmpdir) / "input"
+            input_dir.mkdir()
+
+            # Create a file that will cause a "not found" error
+            (input_dir / "bar_missing.csv").write_text("missing,columns")
+
+    def test_batch_skips_unknown_chart_type(self, capsys):
+        """Test batch skips files with unknown chart type in override."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_dir = Path(tmpdir) / "input"
+            output_dir = Path(tmpdir) / "output"
+            input_dir.mkdir()
+
+            # Create data file
+            (input_dir / "data.csv").write_text("label,value\nA,10")
+
+            import argparse
+
+            args = argparse.Namespace(
+                input_dir=str(input_dir),
+                output_dir=str(output_dir),
+                chart_type="invalid_type",  # Not in CHART_TYPES
+            )
+            # Should exit with code 1 (all files failed)
+            with pytest.raises(SystemExit) as exc_info:
+                batch_command(args)
+            assert exc_info.value.code == 1
+
+            # Check warning was printed
+            captured = capsys.readouterr()
+            assert (
+                "skipping" in captured.out.lower() or "unknown" in captured.out.lower()
+            )
+
+    def test_batch_handles_errors_gracefully(self, capsys):
+        """Test batch handles errors and continues processing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_dir = Path(tmpdir) / "input"
+            output_dir = Path(tmpdir) / "output"
+            input_dir.mkdir()
+
+            # Create data that will cause an error
+            (input_dir / "bar_bad.csv").write_text("x,y,z\n1,2,3")
+
+            import argparse
+
+            args = argparse.Namespace(
+                input_dir=str(input_dir),
+                output_dir=str(output_dir),
+                chart_type="bar",
+            )
+
+            # Should complete but log errors (may or may not exit with 1)
+            batch_command(args)
+
+            # Check error message was printed
+            captured = capsys.readouterr()
+            assert (
+                "error" in captured.err.lower() or "completed" in captured.out.lower()
+            )

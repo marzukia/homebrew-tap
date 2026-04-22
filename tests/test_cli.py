@@ -196,13 +196,77 @@ class TestDataLoadingSadPath:
         """Test that unsupported file format raises ValueError."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write("some data")
-            temp_path = f.name
+            temp_txt_path = f.name
 
         try:
             with pytest.raises(ValueError, match="Unsupported file format"):
-                load_data(temp_path)
+                load_data(temp_txt_path)
+        finally:
+            Path(temp_txt_path).unlink()
+
+    def test_load_csv_with_non_numeric_values(self):
+        """Test CSV parsing handles non-numeric values."""
+        csv_content = """label,value
+a,10
+b,text
+c,30
+"""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write(csv_content)
+            temp_path = f.name
+
+        try:
+            loaded = load_data(temp_path)
+            # Non-numeric value should be kept as string
+            assert "text" in loaded["data"]
         finally:
             Path(temp_path).unlink()
+
+
+class TestCreateCommandSadPath:
+    """Sad path tests for create command."""
+
+    def test_create_unknown_chart_type(self, tmp_path, capsys):
+        """Test that unknown chart type fails gracefully."""
+        output_path = tmp_path / "test.svg"
+
+        import argparse
+
+        args = argparse.Namespace(
+            chart_type="unknown",
+            output=str(output_path),
+            data=None,
+        )
+
+        from charted.cli.create import create_command
+
+        with pytest.raises(SystemExit) as exc_info:
+            create_command(args)
+        assert exc_info.value.code == 1
+
+    def test_create_chart_error(self, tmp_path):
+        """Test chart creation error handling."""
+        output_path = tmp_path / "test.svg"
+
+        # Create data that will cause chart creation to fail
+        data = {"data": None, "labels": None}
+        data_file = tmp_path / "bad_data.json"
+        with open(data_file, "w") as f:
+            json.dump(data, f)
+
+        import argparse
+
+        args = argparse.Namespace(
+            chart_type="bar",
+            output=str(output_path),
+            data=str(data_file),
+        )
+
+        from charted.cli.create import create_command
+
+        with pytest.raises(SystemExit) as exc_info:
+            create_command(args)
+        assert exc_info.value.code == 1
 
     def test_load_empty_csv(self):
         """Test loading empty CSV file."""
@@ -213,6 +277,40 @@ class TestDataLoadingSadPath:
         try:
             loaded = load_data(temp_path)
             assert loaded == {"data": []}
+        finally:
+            Path(temp_path).unlink()
+
+    def test_load_csv_with_non_numeric_values(self):
+        """Test loading CSV with mixed numeric/non-numeric values."""
+        csv_content = """label,value
+a,10
+b,invalid
+c,30
+"""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write(csv_content)
+            temp_path = f.name
+
+        try:
+            loaded = load_data(temp_path)
+            # Non-numeric values should be kept as strings
+            assert loaded["data"] == [10.0, "invalid", 30.0]
+            assert loaded["labels"] == ["a", "b", "c"]
+        finally:
+            Path(temp_path).unlink()
+
+    def test_load_json_with_extra_fields(self):
+        """Test loading JSON with extra fields beyond data/labels."""
+        data = {"data": [10, 20, 30], "labels": ["a", "b", "c"], "extra": "field"}
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(data, f)
+            temp_path = f.name
+
+        try:
+            loaded = load_data(temp_path)
+            assert loaded["data"] == [10, 20, 30]
+            assert loaded["labels"] == ["a", "b", "c"]
+            assert loaded["extra"] == "field"
         finally:
             Path(temp_path).unlink()
 
