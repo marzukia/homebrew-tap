@@ -133,7 +133,7 @@ chart = BarChart(
 chart.save("corporate_chart.svg")
 ```
 
-### Theme Inheritance
+### Theme Merging
 
 Themes use deep merging - unspecified values inherit from defaults:
 
@@ -141,14 +141,14 @@ Themes use deep merging - unspecified values inherit from defaults:
 from charted import BarChart
 
 # This only changes colors, everything else uses defaults
-minimal_theme = {
+custom_colors = {
     "colors": ["#ff6b6b", "#4ecdc4", "#45b7d1", "#f7b731", "#5f27cd"],
 }
 
 chart = BarChart(
     data=[120, 180, 210],
     labels=["Q1", "Q2", "Q3"],
-    theme=minimal_theme
+    theme=custom_colors
 )
 ```
 

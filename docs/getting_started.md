@@ -387,38 +387,50 @@ Create charts from the command line without writing Python:
 
 ```bash
 # Basic bar chart from CSV
-python -m charted create bar sales.svg --data sales.csv --x-col Quarter --y-col Revenue
+python -m charted create bar sales.svg --data sales.csv
+python -m charted create bar sales.svg --data sales.csv
 
 # Multi-series column chart
-python -m charted create column comparison.svg \
-    --data sales.csv \
-    --x-stacked \
-    --title "Sales Comparison" \
-    --theme dark
+python -m charted create column comparison.svg --data sales.csv
 
-# Generate from inline data
-echo "[120, 180, 210]" | python -m charted create bar - --data - --output inline.svg
+# Use short flag
+python -m charted create line trend.svg -d trend.csv
 
-# Batch create multiple charts
-python -m charted batch charts.yaml --output-dir ./output
+# Batch process directory (infers chart type from filename)
+python -m charted batch ./data ./output
+
+# Force specific chart type for all files
+python -m charted batch ./data ./output --chart-type line
+
+# Use custom config
+python -m charted create bar sales.svg --data sales.csv --config .chartedrc.toml
 ```
 
-**YAML Batch File Example** (`charts.yaml`):
+**Data Formats:**
 
-```yaml
-- type: bar
-  output: sales.svg
-  data: sales.csv
-  title: "Sales by Quarter"
-  theme: dark
-
-- type: line
-  output: trend.svg
-  data: trend.csv
-  x_col: Date
-  y_col: Value
-  title: "Trend Analysis"
+CSV — first column is labels, remaining columns are data series:
+```csv
+Quarter,Q1,Q2,Q3,Q4
+Sales,120,180,210,150
+Profit,80,120,140,100
 ```
+
+JSON — supports arrays, arrays of objects, or structured objects:
+```json
+[120, 180, 210, 150]
+```
+
+```json
+[{"label": "Q1", "value": 120}, {"label": "Q2", "value": 180}]
+```
+
+```json
+{"data": [120, 180], "labels": ["Q1", "Q2"], "title": "Sales"}
+```
+
+**Batch Filename Pattern:**
+
+Files should contain chart type keywords (bar, column, line, pie, scatter) in the filename. The batch command infers chart type from the filename, or you can override with `--chart-type`.
 
 ### HTML Embedding
 
@@ -552,41 +564,11 @@ chart.save("custom_colors.svg")
 
 Charted also has a command-line interface:
 
-```bash
-# Create a single chart
-charted create bar --data 120,180,210 --labels Q1,Q2,Q3 --title "Sales" --output sales.svg
-
-# Batch generate charts
-charted batch config.toml
-```
-
-**CLI Example:**
-```bash
-# Bar chart
-charted create bar \
-  --data 120,180,210,150 \
-  --labels Q1,Q2,Q3,Q4 \
-  --title "Quarterly Sales" \
-  --width 800 \
-  --height 400 \
-  --output sales.svg
-
-# Column chart (stacked)
-charted create column \
-  --data 30,50,40 \
-  --data 90,130,170 \
-  --labels Q1,Q2,Q3 \
-  --series-names North,South \
-  --stacked \
-  --output stacked.svg
-```
-
 ## Next Steps
 
 - **API Reference** - Complete documentation for all chart classes
 - **Themes** - Learn about theme customization
-- **CLI Guide** - Command-line usage examples
-- **Examples** - See real-world chart configurations
+- **Configuration** - Configure charted for your project
 
 ## Common Patterns
 
