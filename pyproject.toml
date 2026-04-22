@@ -40,4 +40,11 @@ exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
     "raise NotImplementedError",
+    "raise NotImplementedError",
 ]
+
+[project.scripts]
+charted = "charted.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["charted"]
