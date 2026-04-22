@@ -267,7 +267,11 @@ graph = ScatterChart(
     title="Height vs Weight Distribution",
     x_data=[160, 165, 170, 172, 175, 178, 180, 182, 185, 188, 190],
     y_data=[55, 60, 65, 68, 72, 75, 78, 80, 85, 88, 92],
+)
+```
+
 ![](https://raw.githubusercontent.com/marzukia/charted/main/docs/examples/scatter_single.svg)
+
 
 ### Pie — basic
 
