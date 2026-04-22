@@ -1,6 +1,6 @@
-![charted-logo](https://github.com/peepercat/charted/blob/main/docs/_static/charted-logo.png?raw=true)
+![charted-logo](https://github.com/marzukia/charted/blob/main/docs/_static/charted-logo.png?raw=true)
 
-[![codecov](https://codecov.io/github/peepercat/charted/graph/badge.svg?token=X5HJF0R2FJ)](https://codecov.io/github/peepercat/charted) [![charted-ci](https://github.com/peepercat/charted/actions/workflows/ci.yml/badge.svg)](https://github.com/peepercat/charted/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/github/marzukia/charted/graph/badge.svg?token=X5HJF0R2FJ)](https://codecov.io/github/marzukia/charted) [![charted-ci](https://github.com/marzukia/charted/actions/workflows/ci.yml/badge.svg)](https://github.com/marzukia/charted/actions/workflows/ci.yml)
 
 Charted is a zero dependency SVG chart generator that aims to provide a simple interface for generating beautiful and customisable graphs. This project is inspired by chart libraries like `mermaid.js`.
 
