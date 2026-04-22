@@ -96,19 +96,15 @@ Custom theme::
        theme="dark",  # or "light", "high-contrast"
    )
 
-   # Or custom theme dict
-   chart = ColumnChart(
-       data=[12, 22, 30],
-       labels=["Q1", "Q2", "Q3"],
-       theme={
-           "colors": {
-               "palette": ["#FF6B6B", "#4ECDC4", "#45B7D1"]
-           },
-           "column": {
-               "gap": 0.2
-           }
-       }
-   )
+    # Or custom theme dict
+    chart = ColumnChart(
+        data=[12, 22, 30],
+        labels=["Q1", "Q2", "Q3"],
+        theme={
+            "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1"],
+        },
+        column_gap=0.2
+    )
 
 API Reference
 -------------

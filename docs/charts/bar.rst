@@ -94,19 +94,15 @@ Custom theme::
        theme="dark",  # or "light", "high-contrast"
    )
 
-   # Custom theme with specific colors
-   chart = BarChart(
-       data=[120, 180, 210],
-       labels=["Q1", "Q2", "Q3"],
-       theme={
-           "colors": {
-               "palette": ["#FF6B6B", "#4ECDC4", "#45B7D1"]
-           },
-           "bar": {
-               "gap": 0.2
-           }
-       }
-   )
+    # Custom theme with specific colors
+    chart = BarChart(
+        data=[120, 180, 210],
+        labels=["Q1", "Q2", "Q3"],
+        theme={
+            "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1"],
+        },
+        bar_gap=0.2
+    )
 
 API Reference
 -------------

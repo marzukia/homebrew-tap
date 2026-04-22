@@ -87,28 +87,16 @@ Configuration Options
 
 Line styling::
 
-   # Custom line width and markers
+Line styling::
+
+   # Custom line width and markers via series_style
    chart = LineChart(
        data=[120, 180, 210],
        labels=["Q1", "Q2", "Q3"],
-       theme={
-           "line": {
-               "width": 3.0,
-               "marker": "square",
-               "marker_size": 6.0
-           }
-       }
-   )
-
-Smooth curves::
-
-   chart = LineChart(
-       data=[120, 180, 150, 230, 200],
-       labels=["Jan", "Feb", "Mar", "Apr", "May"],
-       theme={
-           "line": {
-               "smooth": True  # Use bezier curves
-           }
+       series_style={
+           "stroke_width": 3.0,
+           "marker_shape": "square",
+           "marker_size": 6.0
        }
    )
 

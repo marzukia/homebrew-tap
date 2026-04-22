@@ -21,9 +21,6 @@ chart.save("sales.svg")
 ```
 
 That's it! You now have a `sales.svg` file ready to use in presentations, websites, or documentation.
-
-## Chart Types
-
 Charted supports 5 chart types:
 
 - **BarChart** - Horizontal bars (comparing categories)
