@@ -56,7 +56,7 @@ class Chart(Svg):
         from urllib.parse import quote
 
         svg_data = self.svg
-        alt = alt_text or self.title or "chart"
+        alt = alt_text or (self.title if self.title else "chart")
 
         # Encode SVG as data URL
         encoded = quote(svg_data)

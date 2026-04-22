@@ -3,6 +3,8 @@
 Provides functions to embed charts in markdown documentation and HTML.
 """
 
+__all__ = ["chart_to_markdown", "inline_svg", "chart_to_data_url"]
+
 from pathlib import Path
 from urllib.parse import quote
 

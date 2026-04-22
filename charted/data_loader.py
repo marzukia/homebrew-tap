@@ -4,6 +4,8 @@ Provides functions to load data from various file formats (CSV, JSON, TSV)
 without requiring external dependencies like pandas.
 """
 
+__all__ = ["load_data", "load_csv", "load_json"]
+
 import csv
 import json
 from pathlib import Path
@@ -86,16 +88,22 @@ def _load_csv(
             raise ValueError(f"Empty or invalid CSV file: {path}")
 
         if x_col not in reader.fieldnames:
-            raise ValueError(f"Column '{x_col}' not found in {path}. Available: {reader.fieldnames}")
+            raise ValueError(
+                f"Column '{x_col}' not found in {path}. Available: {reader.fieldnames}"
+            )
         if y_col not in reader.fieldnames:
-            raise ValueError(f"Column '{y_col}' not found in {path}. Available: {reader.fieldnames}")
+            raise ValueError(
+                f"Column '{y_col}' not found in {path}. Available: {reader.fieldnames}"
+            )
 
         for row in reader:
             x_data.append(row[x_col])
             try:
                 y_data.append(float(row[y_col]))
             except (ValueError, TypeError):
-                raise ValueError(f"Invalid numeric value in column '{y_col}': {row[y_col]}")
+                raise ValueError(
+                    f"Invalid numeric value in column '{y_col}': {row[y_col]}"
+                )
 
     # Use y_col name as series label
     labels = [y_col]
@@ -127,7 +135,9 @@ def _load_json(path: Path) -> tuple[list[str], list[float], list[str]]:
             label_key = next((k for k in label_keys if k in data[0]), None)
 
             if value_key is None:
-                raise ValueError(f"No numeric value key found in JSON objects. Available keys: {list(data[0].keys())}")
+                raise ValueError(
+                    f"No numeric value key found in JSON objects. Available keys: {list(data[0].keys())}"
+                )
 
             x_data = [str(item.get(label_key, i)) for i, item in enumerate(data)]
             y_data = [float(item[value_key]) for item in data]
@@ -150,7 +160,9 @@ def _load_json(path: Path) -> tuple[list[str], list[float], list[str]]:
             labels = [path.stem]
             return x_data, y_data, labels
 
-    raise ValueError(f"Unsupported JSON structure in {path}. Expected array of numbers, array of objects, or object with 'data' and 'labels'")
+    raise ValueError(
+        f"Unsupported JSON structure in {path}. Expected array of numbers, array of objects, or object with 'data' and 'labels'"
+    )
 
 
 def load_csv(

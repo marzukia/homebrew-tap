@@ -232,6 +232,37 @@ url = chart_to_data_url("chart.svg")
 md = f"![chart]({url})"
 ```
 
+### Using Chart Methods
+
+The new `Chart` class methods provide a more convenient API:
+
+```python
+from charted import BarChart
+
+# Create chart
+chart = BarChart(data=[120, 180, 210], labels=["Q1", "Q2", "Q3"], title="Sales")
+
+# Get markdown with data URL (inline embedding)
+md = chart.to_markdown()
+print(md)
+# Output: ![Sales](data:image/svg+xml,{encoded_svg})
+
+# Get markdown with file path
+chart.save("docs/examples/sales.svg")
+md = chart.to_markdown(path="docs/examples/sales.svg")
+print(md)
+# Output: ![Sales](docs/examples/sales.svg)
+
+# Get raw SVG
+svg = chart.to_svg()
+print(svg[:50])
+# Output: <svg xmlns="http://www.w3.org/2000/svg" ...
+
+# HTML representation (for Jupyter/web frameworks)
+html = chart._repr_html_()
+```
+
+
 ## Customization
 
 ### Themes
