@@ -6,6 +6,19 @@ Charted is a zero dependency SVG chart generator that aims to provide a simple i
 
 All chart types support negative values with a proper zero baseline, multi-series data, and theming via a simple dict. Output is a single SVG string — write it to a file or inline it in HTML.
 
+## Why Charted?
+
+- **Zero runtime dependencies** — pure Python, no numpy/pandas required
+- **5 chart types** — Bar, Column, Line, Scatter, Pie (with doughnut mode)
+- **Multi-series support** — stacked, side-by-side, grouped layouts
+- **Negative values handled** — proper zero baseline calculations
+- **Theme system** — 3 built-in themes + custom dict overrides
+- **Data loading** — CSV/JSON parsers built-in
+- **Markdown export** — generate embed-ready markdown snippets
+- **CLI included** — create charts without writing Python code
+- **Jupyter ready** — charts render inline automatically
+- **Base Chart class** — unified API for dynamic chart type selection
+
 ## Chart Types
 
 - Column (multi-series, stacked, side-by-side)
@@ -74,6 +87,71 @@ Charts are automatically compatible with markdown documentation — just embed t
 ![Sales by Quarter](sales.svg)
 ```
 
+
+
+## Data Loading
+
+Load data directly from CSV/JSON files without pandas:
+
+```python
+from charted import load_csv, load_json, BarChart
+
+# Load from CSV
+x, y, labels = load_csv("sales.csv", x_col="Quarter", y_col="Revenue")
+chart = BarChart(data=y, labels=x, title=labels[0])
+chart.save("sales.svg")
+
+# Load from JSON
+x, y, labels = load_json("data.json")
+chart = ColumnChart(data=y, labels=x)
+chart.save("chart.svg")
+```
+
+Supported JSON formats: simple arrays, arrays of objects, or objects with `data`/`labels` keys.
+
+
+## Markdown Export
+
+Generate embed-ready markdown for documentation:
+
+```python
+from charted import BarChart
+
+chart = BarChart(data=[120, 180, 210], labels=["Q1", "Q2", "Q3"], title="Sales")
+
+# Save and get markdown with file path
+chart.save("docs/sales.svg")
+md = chart.to_markdown(path="docs/sales.svg")
+# Output: ![Sales](docs/sales.svg)
+
+# Get markdown with inline data URL
+md = chart.to_markdown()  # Inline SVG as data URL
+```
+
+Perfect for embedding charts in README files, documentation, or markdown-based wikis.
+
+
+## Base Chart Class
+
+Use the unified `Chart` class for dynamic chart type selection:
+
+```python
+from charted import Chart
+
+# Create any chart type with the same interface
+chart = Chart(
+    data=[120, 180, 210],
+    labels=["Q1", "Q2", "Q3"],
+    title="Sales",
+    chart_type="bar"  # or "column", "line", "scatter", "pie"
+)
+chart.save("chart.svg")
+
+# Access all chart methods
+svg = chart.to_svg()
+md = chart.to_markdown()
+html = chart._repr_html_()
+```
 
 ## CLI Documentation
 
