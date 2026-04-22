@@ -282,3 +282,75 @@ charted includes a command-line interface for generating charts without writing 
    python -m charted create --help
 
 **Chart Types:** bar, column, line, scatter, pie
+
+Full CLI Reference
+~~~~~~~~~~~~~~~~~~
+
+**Create Command:**
+
+.. code-block:: bash
+
+   python -m charted create <chart_type> <output.svg> [options]
+
+   Options:
+     <chart_type>      bar, column, line, scatter, or pie
+     <output.svg>      Output file path (must end in .svg)
+     -d, --data        Input data file (.csv or .json)
+     -c, --config      Optional config file (.chartedrc.toml)
+
+   Examples:
+     # Create bar chart from CSV
+     python -m charted create bar sales.svg --data sales.csv
+
+     # Create column chart with short flags
+     python -m charted create column chart.svg -d data.json
+
+     # Use custom config
+     python -m charted create line trend.svg --data trend.csv --config .chartedrc.toml
+
+**Batch Command:**
+
+.. code-block:: bash
+
+   python -m charted batch <input_dir> <output_dir> [options]
+
+   Options:
+     <input_dir>       Directory containing .csv or .json files
+     <output_dir>      Output directory for generated .svg files
+     -t, --chart-type  Override chart type inferred from filename
+     -c, --config      Optional config file (.chartedrc.toml)
+
+   Filename Pattern: Files should contain chart type keywords (bar, column, line, pie, scatter)
+   
+   Examples:
+     # Process all files, infer chart type from filename
+     python -m charted batch data/ output/
+
+     # Force all files to be line charts
+     python -m charted batch data/ output/ --chart-type line
+
+     # Use custom config for all charts
+     python -m charted batch data/ output/ -c .chartedrc.toml
+
+**Data Formats:**
+
+CSV: First column is labels, remaining columns are data series
+.. code-block:: csv
+
+   Quarter,Q1,Q2,Q3,Q4
+   Sales,120,180,210,150
+   Profit,80,120,140,100
+
+JSON: Supports arrays, arrays of objects, or structured objects
+.. code-block:: json
+
+   [120, 180, 210, 150]
+   [{"label": "Q1", "value": 120}, {"label": "Q2", "value": 180}]
+   {"data": [120, 180], "labels": ["Q1", "Q2"], "title": "Sales"}
+
+**Error Handling:**
+
+CLI provides helpful error messages with suggestions:
+- Missing data file → check file path
+- Unsupported format → use .csv or .json only
+- Invalid chart type → use bar, column, line, scatter, or pie
