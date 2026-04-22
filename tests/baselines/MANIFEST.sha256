@@ -6,5 +6,7 @@
   "line_basic.svg": "003a8476fe2659031a3c77e659d011320bde15548ed23037e28631b9a9a4fe9b",
   "line_multi.svg": "30161e349514bc704e195bfd954c2d5e3b8755055b42a4ea66426d4b51217f6d",
   "scatter_basic.svg": "c56a74d96895746c559bf06742e98bd8b1a5737889c3328eaedb160aa22513bc",
-  "scatter_multi.svg": "b64e1a7c88f5ef882f22825fdcc96db4dfcced62f46637fdb56c406d9c0bb7b0"
+  "scatter_multi.svg": "b64e1a7c88f5ef882f22825fdcc96db4dfcced62f46637fdb56c406d9c0bb7b0",
+  "pie.svg": "01934dd33584b6693df54af8df1f17ae53e75856fb0566b94f319b7f99e61e34",
+  "pie_doughnut.svg": "cc867251344adc968e28734aac6e9316f096acead74d720c5e0a3b05e389886a"
 }

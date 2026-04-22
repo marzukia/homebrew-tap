@@ -21,8 +21,10 @@ class ColumnChart(Chart):
         title: str | None = None,
         theme: Theme | None = None,
         series_names: list[str] | None = None,
+        y_stacked: bool = True,
     ):
         self.column_gap = column_gap
+        self.y_stacked = y_stacked
         super().__init__(
             width=width,
             height=height,
@@ -44,6 +46,8 @@ class ColumnChart(Chart):
         if self.y_axis.axis_dimension.min_value < 0:
             dy = self.y_axis.reproject(abs(self.y_axis.axis_dimension.min_value))
 
+        num_series = len(self.y_values) if self.y_values else 1
+
         g = G(
             opacity="0.8",
             transform=[
@@ -51,16 +55,39 @@ class ColumnChart(Chart):
                 translate(-self.x_width / 2, dy),
             ],
         )
-        for y_values, y_offsets, x_values, color in zip(
-            self.y_values,
-            self.y_offsets,
-            self.x_values,
-            self.colors,
-        ):
-            paths = []
-            for x, y, y_offset in zip(x_values, y_values, y_offsets):
-                x += self.x_offset
-                paths.append(Path.get_path(x, y_offset, self.x_width, y))
-            g.add_child(Path(d=paths, fill=color))
+
+        if self.y_stacked:
+            for y_values, y_offsets, x_values, color in zip(
+                self.y_values,
+                self.y_offsets,
+                self.x_values,
+                self.colors,
+            ):
+                paths = []
+                for x, y, y_offset in zip(x_values, y_values, y_offsets):
+                    x += self.x_offset
+                    paths.append(Path.get_path(x, y_offset, self.x_width, y))
+                g.add_child(Path(d=paths, fill=color))
+        else:
+            # side-by-side mode
+            num_series = len(self.y_values) if self.y_values else 1
+            bar_width = self.x_width / num_series if num_series > 0 else self.x_width
+            series_offset = (bar_width * (num_series - 1)) / 2 if num_series > 0 else 0
+
+            for series_idx, (y_values_series, color) in enumerate(
+                zip(self.y_values, self.colors)
+            ):
+                paths = []
+                for x_idx, y in enumerate(y_values_series):
+                    x = self.x_offset + x_idx * (
+                        self.x_width + self.column_gap * self.x_width
+                    )
+                    # center bar within its slot, offset from group center
+                    bar_x = x - series_offset + series_idx * bar_width
+                    if y >= 0:
+                        paths.append(Path.get_path(bar_x, 0, bar_width, y))
+                    else:
+                        paths.append(Path.get_path(bar_x, y, bar_width, -y))
+                g.add_child(Path(d=paths, fill=color))
 
         return g
