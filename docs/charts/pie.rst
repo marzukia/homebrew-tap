@@ -124,9 +124,7 @@ Override the default color palette::
        data=[300, 150, 100],
        labels=["A", "B", "C"],
        theme={
-           "colors": {
-               "palette": ["#2ECC71", "#3498DB", "#E74C3C"]
-           }
+           "colors": ["#2ECC71", "#3498DB", "#E74C3C"]
        }
    )
 
@@ -135,13 +133,13 @@ Or use a built-in theme::
    chart = PieChart(
        data=[300, 150, 100],
        labels=["A", "B", "C"],
-       theme="pastel"  # Soft pastel colors
+       theme="dark"  # Dark background theme
    )
 
    chart = PieChart(
        data=[300, 150, 100],
        labels=["A", "B", "C"],
-       theme="vibrant"  # Bold saturated colors
+       theme="light"  # Light background theme
    )
 
 Rotation and Angle

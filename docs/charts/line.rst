@@ -156,7 +156,7 @@ API Reference
           labels=["Q1", "Q2", "Q3"],
           series_names=["Revenue", "Expenses"],
           title="Trend Analysis",
-          theme="pastel"
+          theme="dark"  # or "light", "high-contrast"
       )
       chart.save("line.svg")
       print(chart.to_markdown())  # ![Trend Analysis](line.svg)

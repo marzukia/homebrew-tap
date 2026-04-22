@@ -93,7 +93,7 @@ Custom theme::
    chart = ColumnChart(
        data=[12, 22, 30],
        labels=["Q1", "Q2", "Q3"],
-       theme="dark",  # or "pastel", "vibrant", etc.
+       theme="dark",  # or "light", "high-contrast"
    )
 
    # Or custom theme dict

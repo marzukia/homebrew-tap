@@ -91,7 +91,7 @@ Custom theme::
    chart = BarChart(
        data=[120, 180, 210],
        labels=["Q1", "Q2", "Q3"],
-       theme="vibrant",  # or "dark", "pastel", etc.
+       theme="dark",  # or "light", "high-contrast"
    )
 
    # Custom theme with specific colors
