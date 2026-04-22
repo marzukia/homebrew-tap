@@ -47,12 +47,9 @@ Customizing Doughnut::
        labels=["Product A", "Product B", "Product C"],
        doughnut=True,
        inner_radius=0.4,  # Smaller hole
+       start_angle=45,  # Rotate chart
        theme={
-           "pie": {
-               "outer_radius": 0.85,
-               "border_width": 3.0,
-               "border_color": "#FFFFFF"
-           }
+           "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1"]  # Custom slice colors
        }
    )
 
