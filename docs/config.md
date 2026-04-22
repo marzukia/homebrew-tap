@@ -59,21 +59,9 @@ start_angle = 0         # Starting angle in degrees (0-360)
 label_font_size = 14    # Font size for slice labels in points
 ```
 
-### Chart-Specific Themes
+### Chart-Specific Configuration
 
-You can define theme overrides for specific chart types:
-
-```toml
-[charts.pie]
-# Pie-specific theme overrides
-# These merge with the base theme
-
-[charts.bar]
-# Bar-specific theme overrides
-
-[charts.column]
-# Column-specific theme overrides
-```
+Chart-specific parameters (like `inner_radius` for pie charts) are set as constructor arguments, not in the config file.
 
 ## Usage
 
@@ -170,35 +158,28 @@ Full `.chartedrc.toml` example:
 font = "Roboto"
 font_size = 12
 title_font_size = 16
-width = 800
-height = 600
-theme = "light"
 
-colors = [
-    "#5fab9e",
-    "#f58b51",
-    "#f7dd72",
-    "#db504a",
-    "#2e4756"
-]
+# Theme configuration
+theme = "dark"  # or "light", "high-contrast", or custom dict
 
-[bar]
-bar_gap = 0.4
+# Grid configuration
+v_grid = { stroke = "#E0E0E0", stroke_dasharray = "5,5" }
+h_grid = { stroke = "#E0E0E0", stroke_dasharray = "5,5" }
 
-[column]
-column_gap = 0.5
+# Legend configuration  
+legend = { position = "topright", font_size = 11, font_color = "#666666", legend_padding = 0.25 }
 
-[pie]
-explode = 0.1
-start_angle = 0
-label_font_size = 14
+# Title configuration
+title = { font_size = "16pt", font_family = "Helvetica", font_weight = "bold", font_color = "#333333" }
 
-[legend]
-position = "topright"
-font_size = 11
-font_color = "#666666"
-padding = 0.25
+# Marker configuration
+marker = { marker_size = 3.0 }
+
+# Padding configuration
+padding = { h_padding = 0.05, v_padding = 0.05 }
 ```
+
+Chart-specific parameters (explode, inner_radius, start_angle, etc.) are constructor arguments, not config options.
 
 ## Troubleshooting
 
