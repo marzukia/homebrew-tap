@@ -11,6 +11,7 @@ from charted.utils.helpers import (
 from charted.utils.themes import Theme
 from charted.utils.transform import translate
 from charted.utils.types import Labels, MeasuredText, Vector, Vector2D
+from charted.config import get_chart_theme
 
 
 class Chart(Svg):
@@ -31,6 +32,7 @@ class Chart(Svg):
         x_stacked: bool = False,
         title: str | None = None,
         theme: Theme | None = None,
+        chart_type: str | None = None,
     ):
         super().__init__(
             width=width,
@@ -47,7 +49,8 @@ class Chart(Svg):
 
         self.series_names = series_names
         self.x_stacked = x_stacked
-        self.theme = Theme.load(theme)
+        self.series_names = series_names
+        self.x_stacked = x_stacked
 
         self.zero_index = zero_index
 
@@ -58,6 +61,31 @@ class Chart(Svg):
 
         self.width = width
         self.height = height
+        self.x_stacked = x_stacked
+
+        # Load and apply theme
+        self.theme = Theme.load(theme)
+
+        # Apply chart-type-specific overrides if available
+        if chart_type:
+            from charted.config import load_config
+
+            config = load_config()
+            chart_override = get_chart_theme(config, chart_type)
+            if chart_override:
+                chart_theme = Theme.load(chart_override)
+                # Merge: chart override takes precedence over base theme
+                for key in self.theme:
+                    if key not in chart_theme:
+                        chart_theme[key] = self.theme[key]
+                    elif isinstance(self.theme[key], dict) and isinstance(
+                        chart_theme[key], dict
+                    ):
+                        for subkey in self.theme[key]:
+                            if subkey not in chart_theme[key]:
+                                chart_theme[key][subkey] = self.theme[key][subkey]
+                self.theme = chart_theme
+
         self.h_padding = self.theme["padding"]["h_padding"]
         self.v_padding = self.theme["padding"]["v_padding"]
 
