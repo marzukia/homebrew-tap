@@ -3,6 +3,7 @@
 This module contains tests for the CLI entry point and commands.
 """
 
+import argparse
 import json
 import subprocess
 import sys
@@ -12,7 +13,7 @@ from pathlib import Path
 import pytest
 
 from charted.__main__ import main
-from charted.cli.batch import _infer_chart_type
+from charted.cli.batch import _infer_chart_type, batch_command
 from charted.cli.create import load_data
 
 
@@ -457,3 +458,89 @@ class TestConsoleScript:
         )
         assert result.returncode == 0
         assert output_path.exists()
+
+
+def test_batch_command_no_files(tmp_path, capsys):
+    """Test batch command with no data files."""
+    input_dir = tmp_path / "input"
+    output_dir = tmp_path / "output"
+    input_dir.mkdir()
+
+    args = argparse.Namespace(
+        input_dir=str(input_dir),
+        output_dir=str(output_dir),
+        chart_type=None,
+        config=None,
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        batch_command(args)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "no data files" in captured.err.lower()
+
+
+def test_batch_command_unknown_chart_type_keyword(tmp_path, capsys):
+    """Test batch command with filename that doesn't match chart type keywords."""
+    input_dir = tmp_path / "input"
+    output_dir = tmp_path / "output"
+    input_dir.mkdir()
+
+    # Create a file with no chart type keyword - defaults to bar
+    (input_dir / "data.csv").write_text("a,b\n1,2")
+
+    args = argparse.Namespace(
+        input_dir=str(input_dir),
+        output_dir=str(output_dir),
+        chart_type=None,
+        config=None,
+    )
+
+    # Should succeed - defaults to bar chart
+    batch_command(args)
+    captured = capsys.readouterr()
+    assert "created: data.svg" in captured.out.lower()
+
+
+def test_create_command_no_data_file(tmp_path, capsys):
+    """Test create command without data file."""
+    output_path = tmp_path / "output.svg"
+
+    args = argparse.Namespace(
+        chart_type="bar",
+        output=str(output_path),
+        data=None,
+        config=None,
+    )
+
+    from charted.cli.create import create_command
+
+    # BarChart requires data, so this should fail
+    with pytest.raises(SystemExit) as exc_info:
+        create_command(args)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "error creating chart" in captured.err.lower()
+
+
+def test_create_command_with_invalid_data(tmp_path, capsys):
+    """Test create command with non-existent data file."""
+    output_path = tmp_path / "output.svg"
+
+    args = argparse.Namespace(
+        chart_type="bar",
+        output=str(output_path),
+        data="/nonexistent/data.csv",
+        config=None,
+    )
+
+    from charted.cli.create import create_command
+
+    with pytest.raises(SystemExit) as exc_info:
+        create_command(args)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "data file not found" in captured.err.lower()
