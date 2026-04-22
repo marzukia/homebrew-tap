@@ -29,6 +29,12 @@ def main(args=None):
     )
     batch_parser.add_argument("input_dir", help="Input directory containing data files")
     batch_parser.add_argument("output_dir", help="Output directory for SVG files")
+    batch_parser.add_argument(
+        "--chart-type",
+        "-t",
+        choices=["bar", "column", "line", "pie", "scatter"],
+        help="Override chart type inferred from filename",
+    )
     batch_parser.add_argument("--config", "-c", help="Config file path")
     batch_parser.set_defaults(func="batch")
 

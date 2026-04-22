@@ -11,6 +11,9 @@ def batch_command(args: argparse.Namespace):
     """Generate multiple charts from a directory."""
     input_dir = Path(args.input_dir)
     output_dir = Path(args.output_dir)
+    override_chart_type = (
+        args.chart_type if hasattr(args, "chart_type") and args.chart_type else None
+    )
 
     if not input_dir.exists():
         print(f"Error: Input directory not found: {input_dir}", file=sys.stderr)
@@ -36,9 +39,12 @@ def batch_command(args: argparse.Namespace):
 
     for data_file in data_files:
         try:
-            # Determine chart type from filename
-            stem = data_file.stem.lower()
-            chart_type = _infer_chart_type(stem)
+            # Determine chart type from filename or override
+            if override_chart_type:
+                chart_type = override_chart_type
+            else:
+                stem = data_file.stem.lower()
+                chart_type = _infer_chart_type(stem)
 
             if chart_type not in CHART_TYPES:
                 print(f"  Skipping {data_file.name}: unknown chart type in filename")
@@ -51,7 +57,7 @@ def batch_command(args: argparse.Namespace):
             chart = ChartClass(**data)
             svg = chart.html
 
-            output_path = output_dir / f"{stem}.svg"
+            output_path = output_dir / f"{data_file.stem}.svg"
             with open(output_path, "w") as f:
                 f.write(svg)
 
@@ -59,7 +65,23 @@ def batch_command(args: argparse.Namespace):
             success_count += 1
 
         except Exception as e:
+            error_msg = str(e)
             print(f"  Error with {data_file.name}: {e}", file=sys.stderr)
+            if "not found" in error_msg:
+                print(
+                    "    Suggestion: Check that the data file exists and is readable",
+                    file=sys.stderr,
+                )
+            elif "chart type" in error_msg.lower() or "key" in error_msg.lower():
+                print(
+                    "    Suggestion: Check data matches expected chart format",
+                    file=sys.stderr,
+                )
+            else:
+                print(
+                    "    Suggestion: Check that your CSV/JSON is properly formatted",
+                    file=sys.stderr,
+                )
             error_count += 1
 
     print(f"\nCompleted: {success_count} succeeded, {error_count} failed")

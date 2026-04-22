@@ -84,7 +84,22 @@ def create_command(args: argparse.Namespace):
         try:
             data = load_data(args.data)
         except (FileNotFoundError, ValueError) as e:
-            print(f"Error loading data: {e}", file=sys.stderr)
+            error_msg = str(e)
+            if "not found" in error_msg:
+                print(f"Error: Data file not found: {args.data}", file=sys.stderr)
+                print(
+                    "  Suggestion: Check the file path and ensure it exists",
+                    file=sys.stderr,
+                )
+            elif "Unsupported file format" in error_msg:
+                print("Error: Unsupported file format", file=sys.stderr)
+                print("  Suggestion: Use .csv or .json files only", file=sys.stderr)
+            else:
+                print(f"Error loading data: {e}", file=sys.stderr)
+                print(
+                    "  Suggestion: Check that your CSV/JSON is properly formatted",
+                    file=sys.stderr,
+                )
             sys.exit(1)
 
     # Create chart
