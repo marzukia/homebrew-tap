@@ -61,11 +61,18 @@ class LineChart(Chart):
             stroke_width = style.get("stroke_width") or 2
             stroke_dasharray = style.get("stroke_dasharray")
             area_fill = style.get("area_fill", False)
+            stroke_opacity = style.get("stroke_opacity")
+            area_fill = style.get("area_fill", False)
             area_fill_opacity = style.get("area_fill_opacity", 0.3)
-
+            marker_shape = style.get("marker_shape", "circle")
+            marker_size = (
+                style.get("marker_size") or self.theme["marker"]["marker_size"]
+            )
             series = G(fill="white", stroke=stroke, stroke_width=stroke_width)
             if stroke_dasharray:
                 series.attributes["stroke_dasharray"] = stroke_dasharray
+            if stroke_opacity:
+                series.attributes["stroke_opacity"] = stroke_opacity
 
             points = []
             path = []
@@ -78,10 +85,29 @@ class LineChart(Chart):
                 else:
                     path.append(f"L{x} {y}")
 
-                marker_size = self.theme["marker"]["marker_size"]
-                if marker_size:
-                    c = Circle(cx=x, cy=y, r=marker_size)
-                    points.append(c)
+                # Render marker based on shape
+                if marker_shape != "none" and marker_size:
+                    if marker_shape == "square":
+                        from charted.html.element import Rect
+
+                        half = marker_size / 2
+                        marker = Rect(
+                            x=x - half,
+                            y=y - half,
+                            width=marker_size,
+                            height=marker_size,
+                        )
+                    elif marker_shape == "diamond":
+                        points_str = (
+                            f"{x},{y - marker_size} "
+                            f"{x + marker_size},{y} "
+                            f"{x},{y + marker_size} "
+                            f"{x - marker_size},{y}"
+                        )
+                        marker = Path(d=f"M{points_str} Z", fill=stroke)
+                    else:  # circle
+                        marker = Circle(cx=x, cy=y, r=marker_size)
+                    points.append(marker)
 
             line = Path(d=path, fill="none")
             series.add_children(line, *points)

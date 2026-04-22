@@ -8,7 +8,7 @@ from charted.html.element import G, Path, Text
 from charted.utils.colors import complementary_color, get_contrast_color
 from charted.utils.defaults import DEFAULT_COLORS
 from charted.utils.themes import Theme
-from charted.utils.types import Labels, Vector
+from charted.utils.types import Labels, SeriesStyleConfig, Vector
 
 
 class PieChart(Chart):
@@ -27,6 +27,7 @@ class PieChart(Chart):
         inner_radius: float = 0,
         explode: float | Vector = 0,
         start_angle: float = 0,
+        series_styles: list[SeriesStyleConfig] | None = None,
     ):
         """Initialize pie chart.
 
@@ -39,6 +40,7 @@ class PieChart(Chart):
             inner_radius: Ratio (0.0-1.0) for doughnut hole; 0 = regular pie
             explode: Single value or list to offset slices from center (pixels)
             start_angle: Starting angle in degrees (0 = top, clockwise)
+            series_styles: Optional per-slice styling overrides
         """
         # Validate inputs
         if not data or len(data) == 0:
@@ -61,6 +63,7 @@ class PieChart(Chart):
         self.start_angle = start_angle
         self._pie_data = list(data)  # Store original data for rendering
         self._pie_labels = labels
+        self.series_styles = series_styles
 
         # Create synthetic x_data and y_data for Chart base class compatibility
         x_data = [[i for i in range(len(data))]]
@@ -216,21 +219,31 @@ class PieChart(Chart):
                 offset_y = explode_offset * math.sin(slice_rad)
                 transform = f"translate({offset_x}, {offset_y})"
 
+            # Get slice-specific style if available
+            slice_color = self.colors[i % len(self.colors)]
+            slice_opacity = 0.8
+            if self.series_styles and i < len(self.series_styles):
+                style = self.series_styles[i] or {}
+                if style.get("fill"):
+                    slice_color = style["fill"]
+                if style.get("fill_opacity"):
+                    slice_opacity = style["fill_opacity"]
+
             # Handle 100% single-slice edge case
             if angle >= 359.9:
                 path_data = self._get_full_circle_path(cx, cy, radius)
                 slice_path = Path(
                     d=path_data,
-                    fill=self.colors[i % len(self.colors)],
+                    fill=slice_color,
                     fill_rule="evenodd" if self.inner_radius > 0 else "nonzero",
-                    opacity=0.8,
+                    opacity=slice_opacity,
                 )
             else:
                 path_data = self._get_slice_path(cx, cy, radius, start_angle, end_angle)
                 slice_path = Path(
                     d=path_data,
-                    fill=self.colors[i % len(self.colors)],
-                    opacity=0.8,
+                    fill=slice_color,
+                    opacity=slice_opacity,
                 )
 
             # Wrap in group with transform if exploded
@@ -258,7 +271,6 @@ class PieChart(Chart):
             label_y = cy + label_radius * math.sin(label_rad)
 
             # Use contrast-aware text color
-            slice_color = self.colors[i % len(self.colors)]
             text_color = get_contrast_color(slice_color)
 
             label_text = Text(

@@ -1,5 +1,5 @@
 from charted.charts.chart import Chart
-from charted.html.element import Circle, G
+from charted.html.element import Circle, G, Path, Rect
 from charted.utils.themes import Theme
 from charted.utils.types import SeriesStyleConfig, Vector, Vector2D
 
@@ -40,12 +40,15 @@ class ScatterChart(Chart):
             # Apply style overrides from series_styles
             fill = color
             marker_size = 4  # default
+            marker_shape = "circle"  # default
             if self.series_styles and series_idx < len(self.series_styles):
                 style = self.series_styles[series_idx] or {}
                 if style.get("fill"):
                     fill = style["fill"]
                 if style.get("marker_size"):
                     marker_size = style["marker_size"]
+                if style.get("marker_shape"):
+                    marker_shape = style["marker_shape"]
 
             series = G(fill=fill)
             x_offset = self.x_offset
@@ -53,7 +56,27 @@ class ScatterChart(Chart):
             for x, y, y_offset in zip(x_values, y_values, y_offsets):
                 x += x_offset
                 y = self._apply_stacking(y, y_offset)
-                series.add_child(Circle(cx=x, cy=y, r=marker_size))
+                # Render marker based on shape
+                if marker_shape == "square":
+                    half = marker_size / 2
+                    series.add_child(
+                        Rect(
+                            x=x - half,
+                            y=y - half,
+                            width=marker_size,
+                            height=marker_size,
+                        )
+                    )
+                elif marker_shape == "diamond":
+                    points_str = (
+                        f"{x},{y - marker_size} "
+                        f"{x + marker_size},{y} "
+                        f"{x},{y + marker_size} "
+                        f"{x - marker_size},{y}"
+                    )
+                    series.add_child(Path(d=f"M{points_str} Z", fill=fill))
+                elif marker_shape != "none":  # circle
+                    series.add_child(Circle(cx=x, cy=y, r=marker_size))
             g.add_children(series)
 
         return g
