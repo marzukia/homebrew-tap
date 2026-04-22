@@ -47,7 +47,7 @@ from charted.utils.themes import Theme
 chart = BarChart(
     data=[120, 180, 210],
     labels=["Q1", "Q2", "Q3"],
-    theme=Theme.DARK  # Alternative: Theme.LIGHT, Theme.COLORFUL
+    theme=Theme.DARK  # Alternative: Theme.LIGHT, Theme.HIGH_CONTRAST
 )
 ```
 

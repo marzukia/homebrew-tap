@@ -174,7 +174,7 @@ API Reference
           data=[[1, 2], [2, 4], [3, 5], [4, 4], [5, 7]],
           labels=["Product Sales"],
           title="Price vs Demand",
-          theme="vibrant"
+          theme="dark"  # or "light", "high-contrast"
       )
       chart.save("scatter.svg")
       print(chart.to_markdown())  # ![Price vs Demand](scatter.svg)

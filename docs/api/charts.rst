@@ -207,7 +207,6 @@ All chart types share these methods:
    Chart.save
    Chart.to_markdown
    Chart._repr_html_
-   Chart.apply_theme
 
    to_svg()
       Generate the SVG string representation of the chart.
@@ -221,18 +220,10 @@ All chart types share these methods:
    _repr_html_()
       IPython/Jupyter integration — returns HTML with inline SVG.
 
-   apply_theme(theme)
-      Apply a theme (dict or theme name) to the chart.
-
 Data Loading API
 ----------------
 
 .. autofunction:: charted.load_csv
-
-   Load data from a CSV file.
-
-   **Parameters:**
-
    - ``filepath`` — Path to CSV file
    - ``x_col`` — Column name for X-axis/labels
    - ``y_cols`` — Column name(s) for Y-axis data
