@@ -60,3 +60,23 @@ class TestColumnChartSadPath:
         """Test that empty data raises ValueError."""
         with pytest.raises(Exception, match="No data was provided"):
             ColumnChart(data=[], labels=[])
+
+    def test_column_chart_side_by_side(self):
+        """Test side-by-side column chart (y_stacked=False)."""
+        chart = ColumnChart(
+            data=[[10, 15], [20, 25], [30, 35]], labels=["a", "b", "c"], y_stacked=False
+        )
+        html = chart.html
+        assert "<path" in html.lower()
+        assert "svg" in html.lower()
+
+    def test_column_chart_side_by_side_negative(self):
+        """Test side-by-side column chart with negative values."""
+        chart = ColumnChart(
+            data=[[-10, 15], [-20, -25], [30, -35]],
+            labels=["a", "b", "c"],
+            y_stacked=False,
+        )
+        html = chart.html
+        assert "svg" in html.lower()
+        assert "NaN" not in html
