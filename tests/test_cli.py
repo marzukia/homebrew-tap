@@ -327,7 +327,6 @@ class TestConsoleScript:
             [sys.executable, "-m", "charted", "--help"],
             capture_output=True,
             text=True,
-            cwd="/home/andryo/git/charted",
         )
         assert result.returncode == 0
         assert "charted" in result.stdout.lower()
@@ -354,8 +353,7 @@ class TestConsoleScript:
                 str(data_file),
             ],
             capture_output=True,
-            cwd="/home/andryo/git/charted",
+            text=True,
         )
-
         assert result.returncode == 0
         assert output_path.exists()
