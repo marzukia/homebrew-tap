@@ -116,16 +116,13 @@ Configuration Options
 Custom colors per series::
 
    chart = ScatterChart(
-       data=[[[1, 2], [2, 3]], [[1, 1], [2, 2]]],
+       x_data=[[1, 2], [1, 2]],
+       y_data=[[2, 3], [1, 2]],
        labels=["Series A", "Series B"],
-       theme={
-           "colors": {
-               "palette": ["#2ECC71", "#3498DB"]
-           },
-           "scatter": {
-               "marker_size": 6.0
-           }
-       }
+       series_styles=[
+           {"marker_shape": "circle", "marker_size": 6.0, "color": "#2ECC71"},
+           {"marker_shape": "square", "marker_size": 6.0, "color": "#3498DB"}
+       ]
    )
 
 API Reference
