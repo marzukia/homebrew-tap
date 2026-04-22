@@ -65,23 +65,14 @@ Highlight specific slices by exploding them outward::
    chart = PieChart(
        data=[45, 30, 15, 10],
        labels=["A", "B", "C", "D"],
-       theme={
-           "pie": {
-               "explode": 0.1  # Explode all by 10%
-           }
-       }
+       explode=0.1  # Explode all by 10%
    )
 
    # Explode specific slices
    chart = PieChart(
        data=[45, 30, 15, 10],
        labels=["A", "B", "C", "D"],
-       slice_styles={
-           0: {"explode": 0.15},  # Slice A exploded
-           1: {"explode": 0.0},   # Slice B normal
-           2: {"explode": 0.1},   # Slice C slightly exploded
-           3: {"explode": 0.0},   # Slice D normal
-       }
+       explode=[0.15, 0.0, 0.1, 0.0]  # Per-slice explosion
    )
 
 Per-Slice Styling
@@ -157,11 +148,7 @@ Control the starting angle of the pie::
    chart = PieChart(
        data=[45, 30, 15, 10],
        labels=["A", "B", "C", "D"],
-       theme={
-           "pie": {
-               # Note: start_angle is handled in chart code
-           }
-       }
+       start_angle=90
    )
 
 Label Positioning
@@ -169,35 +156,16 @@ Label Positioning
 
 Control where labels appear::
 
+   # Labels positioned automatically based on slice size
    chart = PieChart(
        data=[300, 150, 100],
-       labels=["Large", "Medium", "Small"],
-       theme={
-           "pie": {
-               "label_position": "outside"  # Labels outside pie
-           }
-       }
+       labels=["Large", "Medium", "Small"]
    )
 
+   # Labels positioned automatically based on slice size
    chart = PieChart(
        data=[300, 150, 100],
-       labels=["Large", "Medium", "Small"],
-       theme={
-           "pie": {
-               "label_position": "inside"  # Labels inside slices
-           }
-       }
-   )
-
-   # Auto-position based on slice size
-   chart = PieChart(
-       data=[300, 150, 100],
-       labels=["Large", "Medium", "Small"],
-       theme={
-           "pie": {
-               "label_position": "auto"  # Default: smart positioning
-           }
-       }
+       labels=["Large", "Medium", "Small"]
    )
 
 Configuration Options
@@ -212,21 +180,11 @@ Complete pie customization::
        title="Revenue Distribution",
        width=600,
        height=500,
-       doughnut=False,
+       inner_radius=0.4,          # 0 for pie, 0.3-0.7 for doughnut
+       start_angle=0,             # Starting angle in degrees
+       explode=0,                 # Default explode amount
        theme={
-           "pie": {
-               "inner_radius": 0,           # 0 for pie, 0.3-0.7 for doughnut
-               "outer_radius": 0.8,         # Size relative to chart
-               "label_position": "auto",    # "inside", "outside", "auto"
-               "label_line_color": "#CCCCCC",
-               "label_line_width": 1.0,
-               "explode": 0,                # Default explode amount
-               "border_color": "#FFFFFF",
-               "border_width": 2.0
-           },
-           "colors": {
-               "palette": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
-           }
+           "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
        }
    )
 
