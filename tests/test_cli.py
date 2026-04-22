@@ -320,9 +320,9 @@ class TestConsoleScript:
     """Tests for console script entry point."""
 
     def test_console_script_exists(self):
-        """Test that charted console script is available via uv run."""
+        """Test that charted console script is available via python -m."""
         result = subprocess.run(
-            ["uv", "run", "charted", "--help"],
+            ["python", "-m", "charted", "--help"],
             capture_output=True,
             text=True,
             cwd="/home/andryo/git/charted",
@@ -342,8 +342,8 @@ class TestConsoleScript:
 
         result = subprocess.run(
             [
-                "uv",
-                "run",
+                "python",
+                "-m",
                 "charted",
                 "create",
                 "bar",
