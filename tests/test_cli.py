@@ -322,7 +322,7 @@ class TestConsoleScript:
     def test_console_script_exists(self):
         """Test that charted console script is available via python -m."""
         result = subprocess.run(
-            ["python", "-m", "charted", "--help"],
+            ["charted", "--help"],
             capture_output=True,
             text=True,
             cwd="/home/andryo/git/charted",
@@ -341,16 +341,7 @@ class TestConsoleScript:
             json.dump(data, f)
 
         result = subprocess.run(
-            [
-                "python",
-                "-m",
-                "charted",
-                "create",
-                "bar",
-                str(output_path),
-                "--data",
-                str(data_file),
-            ],
+            ["charted", "create", "bar", str(output_path), "--data", str(data_file)],
             capture_output=True,
             text=True,
             cwd="/home/andryo/git/charted",
