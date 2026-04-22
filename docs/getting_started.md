@@ -262,6 +262,31 @@ print(svg[:50])
 html = chart._repr_html_()
 ```
 
+## Using the Base Chart Class
+
+The `Chart` base class provides a unified API for all chart types:
+
+```python
+from charted import Chart, BarChart
+
+# Create a chart using the base class
+chart = Chart(
+    data=[120, 180, 210, 150],
+    labels=["Q1", "Q2", "Q3", "Q4"],
+    title="Sales by Quarter",
+    chart_type="bar"  # or "column", "line", "scatter", "pie"
+)
+chart.save("sales.svg")
+
+# Access chart methods
+svg = chart.to_svg()
+md = chart.to_markdown()
+html = chart._repr_html_()
+```
+
+This is useful when you want a consistent interface across different chart types.
+
+
 
 ## Customization
 
