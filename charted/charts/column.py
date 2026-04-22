@@ -87,6 +87,13 @@ class ColumnChart(Chart):
             for series_idx, (y_values_series, color) in enumerate(
                 zip(self.y_values, self.colors)
             ):
+                # Apply fill override from series_styles
+                fill = color
+                if self.series_styles and series_idx < len(self.series_styles):
+                    style = self.series_styles[series_idx] or {}
+                    if style.get("fill"):
+                        fill = style["fill"]
+
                 paths = []
                 for x_idx, y in enumerate(y_values_series):
                     x = self.x_offset + x_idx * (
@@ -98,6 +105,6 @@ class ColumnChart(Chart):
                         paths.append(Path.get_path(bar_x, 0, bar_width, y))
                     else:
                         paths.append(Path.get_path(bar_x, y, bar_width, -y))
-                g.add_child(Path(d=paths, fill=color))
+                g.add_child(Path(d=paths, fill=fill))
 
         return g

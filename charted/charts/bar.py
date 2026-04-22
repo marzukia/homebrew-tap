@@ -95,9 +95,16 @@ class BarChart(Chart):
             # Mirror ColumnChart: iterate series, accumulate offsets along the
             # value axis (x here, y in ColumnChart). x_offsets is pre-computed
             # and already reprojected by Chart.x_offsets setter.
-            for x_values_series, x_offsets_series, color in zip(
-                self.x_values, self.x_offsets, self.colors
+            for series_idx, (x_values_series, x_offsets_series, color) in enumerate(
+                zip(self.x_values, self.x_offsets, self.colors)
             ):
+                # Apply fill override from series_styles
+                fill = color
+                if self.series_styles and series_idx < len(self.series_styles):
+                    style = self.series_styles[series_idx] or {}
+                    if style.get("fill"):
+                        fill = style["fill"]
+
                 paths = []
                 for bar_idx, (x, x_offset_val) in enumerate(
                     zip(x_values_series, x_offsets_series)
@@ -111,12 +118,19 @@ class BarChart(Chart):
                     left_x = min(x_offset_val, x_offset_val + x)
                     width = abs(x)
                     paths.append(Path.get_path(left_x, slot_y, width, series_thickness))
-                bars_g.add_child(Path(d=paths, fill=color))
+                bars_g.add_child(Path(d=paths, fill=fill))
         else:
             zero_x = self.x_axis.zero
             for series_idx, (x_values_series, color) in enumerate(
                 zip(self.x_values, self.colors)
             ):
+                # Apply fill override from series_styles
+                fill = color
+                if self.series_styles and series_idx < len(self.series_styles):
+                    style = self.series_styles[series_idx] or {}
+                    if style.get("fill"):
+                        fill = style["fill"]
+
                 paths = []
                 for bar_idx, x in enumerate(x_values_series):
                     slot_y = start_y + bar_idx * (slot_height + gap)
@@ -129,7 +143,7 @@ class BarChart(Chart):
                         paths.append(
                             Path.get_path(x, bar_y, zero_x - x, series_thickness)
                         )
-                bars_g.add_child(Path(d=paths, fill=color))
+                bars_g.add_child(Path(d=paths, fill=fill))
 
         # Plot borders — all four sides.
         grid_color = "#CCCCCC"
