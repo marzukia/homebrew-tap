@@ -5,17 +5,14 @@ All notable changes to Charted will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-04-23
 
 ### Added
-- Initial release of Charted
-- Bar, Column, Line, Pie, and Scatter chart types
-- SVG output with embedded font definitions
-- CLI interface for chart generation
-- Python API for programmatic chart creation
-- Multiple theme support (light, dark, custom)
-- Markdown integration
-- Batch processing via CLI
+- Zero-dependency SVG chart generation (bar, column, line, pie, scatter)
+- Embedded font definitions for portable rendering
+- CLI interface with batch processing
+- Python API with theme support (10 built-in themes)
+- Markdown integration (data URLs, inline SVG)
 - HTML element generation
 - Data transformation utilities
 - Color palette utilities
