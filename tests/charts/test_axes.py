@@ -120,13 +120,15 @@ class TestXAxisSadPath:
             XAxis(parent=parent, data=data)
 
     def test_empty_string_labels(self):
-        """Test XAxis with empty string labels raises ValueError."""
+        """Test XAxis with empty string labels renders without error."""
         parent = MockParent()
         data = [[10, 20, 30]]
         labels = ["", "", ""]
-        # Empty strings cause ValueError in text dimension calculation
-        with pytest.raises(ValueError):
-            XAxis(parent=parent, data=data, labels=labels)
+        # Empty strings now render as blank labels
+        axis = XAxis(parent=parent, data=data, labels=labels)
+        assert axis is not None
+        assert len(axis.labels) == 3
+        assert all(label.text == "" for label in axis.labels)
 
 
 class TestYAxisSadPath:
