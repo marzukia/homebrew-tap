@@ -40,7 +40,20 @@ chart.save("accessible_chart.svg")
 
 For type-safe theme selection:
 
+### Using Theme Constants
+
+For type-safe theme selection:
+
 ```python
+from charted import BarChart
+from charted.utils.themes import Theme
+
+chart = BarChart(
+    data=[120, 180, 210],
+    labels=["Q1", "Q2", "Q3"],
+    theme=Theme.load("dark")  # Alternative: "light", "high-contrast"
+)
+```
 from charted import BarChart
 from charted.utils.themes import Theme
 
