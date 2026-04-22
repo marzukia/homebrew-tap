@@ -16,7 +16,7 @@ charted
 - **5 chart types** — Bar, Column, Line, Scatter, Pie (with doughnut mode)
 - **Multi-series support** — stacked, side-by-side, grouped layouts
 - **Negative values handled** — proper zero baseline calculations
-- **Theme system** — 10 built-in themes + custom theme support
+- **Theme system** — 3 built-in themes + custom dict overrides
 - **Data loading** — CSV/JSON parsers built-in
 - **Markdown export** — generate embed-ready markdown snippets
 - **CLI included** — create charts without writing Python code
@@ -202,13 +202,14 @@ Use the unified ``Chart`` class for dynamic chart type selection:
 Theming
 ~~~~~~~
 
-charted includes 10 built-in themes plus full custom theme support. See the `Themes Guide <themes.html>`_ for complete documentation on:
+charted includes 3 built-in themes plus full custom theme support. See the `Themes Guide <themes.html>`_ for complete documentation on:
 
-- Built-in theme reference (default, dark, pastel, vibrant, etc.)
-- Theme dictionary structure and all configurable properties
+- Built-in theme reference (dark, light, high-contrast)
+- Theme dictionary structure (legend, marker, title, colors, grid, padding)
 - Merging custom overrides with built-in themes
 - Creating and registering custom themes
-- Per-chart-type theme customization
+
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -233,6 +234,10 @@ charted uses font definitions instead of runtime font rendering for zero-depende
 Available fonts: Arial, Inter, Roboto, Helvetica, Lato, Fira Code, JetBrains Mono.
 
 Examples
+
+.. include:: ../README.md
+   :start-after: ## Examples
+   :end-before: ## Installation
 --------
 
 See the `Chart Type Guides <charts/column.html>`_ for detailed examples of each chart type with real-world use cases.
