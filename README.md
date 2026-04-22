@@ -15,11 +15,87 @@ All chart types support negative values with a proper zero baseline, multi-serie
 - Pie (doughnut mode, exploded slices)
 
 
+## CLI Usage
+
+charted can be used from the command line to generate charts without writing Python code:
+
+```sh
+# Generate a single chart from CSV/JSON
+python -m charted create bar output.svg --data data.csv
+
+# Specify chart type and data file
+python -m charted create column chart.svg -d sales.csv
+
+# Batch generate charts from a directory
+python -m charted batch input_data/ output_svg/
+
+# Override chart type inference
+python -m charted batch input_data/ output_svg/ -t line
+```
+
+### Data File Formats
+
+**CSV:**
+```csv
+Quarter,Revenue,Expenses
+Q1,120,80
+Q2,180,95
+Q3,210,110
+```
+
+**JSON:**
+```json
+{
+  "labels": ["Q1", "Q2", "Q3"],
+  "data": [[120, 180, 210], [80, 95, 110]],
+  "series_names": ["Revenue", "Expenses"]
+}
+```
+
+
+## Jupyter Notebook Integration
+
+charted works seamlessly in Jupyter notebooks — charts render inline automatically:
+
+```python
+from charted.charts import BarChart
+
+# Just create a chart, it displays inline
+chart = BarChart(
+    title="Sales by Quarter",
+    data=[120, 180, 210, 150],
+    labels=["Q1", "Q2", "Q3", "Q4"]
+)
+```
+
+Charts are automatically compatible with markdown documentation — just embed the generated SVG:
+
+```markdown
+![Sales by Quarter](sales.svg)
+```
+
+
+## CLI Documentation
+
+Full CLI help is available via:
+
+```sh
+python -m charted --help
+python -m charted create --help
+python -m charted batch --help
+```
+
+See [Configuration](config.md) for project-level settings that apply to both Python and CLI usage.
+
 ## Installation
 
 ```sh
 pip install charted
 ```
+
+## Links
+
+- [Charted - Documentation](https://charted.mrzk.io)
 
 ### `tkinter`
 
@@ -31,9 +107,6 @@ New font definitions can be created by using:
 uv run python charted/commands/create_font_definition.py Helvetica
 ```
 
-## Links
-
-- [Charted - Documentation](https://charted.mrzk.io)
 
 ## Examples
 
