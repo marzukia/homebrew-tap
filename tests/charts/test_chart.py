@@ -1,5 +1,7 @@
 """Tests for Chart base class methods."""
 
+import pytest
+
 from charted.charts.column import ColumnChart
 
 
@@ -30,3 +32,45 @@ def test_apply_stacking_adds_offset_when_stacked():
     chart.y_stacked = False
     result = chart._apply_stacking(10, 5)
     assert result == 10
+
+
+def test_width_rejects_negative_value():
+    """Negative width raises InvalidValue."""
+    with pytest.raises(Exception) as exc_info:
+        ColumnChart(data=[1, 2, 3], width=-10)
+    assert "width" in str(exc_info.value).lower()
+
+
+def test_height_rejects_negative_value():
+    """Negative height raises InvalidValue."""
+    with pytest.raises(Exception) as exc_info:
+        ColumnChart(data=[1, 2, 3], height=-10)
+    assert "height" in str(exc_info.value).lower()
+
+
+def test_h_padding_rejects_value_greater_than_one():
+    """h_padding > 1 raises InvalidValue."""
+    with pytest.raises(Exception) as exc_info:
+        chart = ColumnChart(data=[1, 2, 3])
+        chart.h_padding = 1.5
+    assert "h_padding" in str(exc_info.value).lower()
+
+
+def test_v_padding_rejects_value_greater_than_one():
+    """v_padding > 1 raises InvalidValue."""
+    with pytest.raises(Exception) as exc_info:
+        chart = ColumnChart(data=[1, 2, 3])
+        chart.v_padding = 1.5
+    assert "v_padding" in str(exc_info.value).lower()
+
+
+def test_validate_data_rejects_empty_data():
+    """Empty data raises exception."""
+    with pytest.raises(Exception, match="No data was provided"):
+        ColumnChart._validate_data([])
+
+
+def test_validate_data_rejects_mismatched_lengths():
+    """Data vectors of different lengths raise exception."""
+    with pytest.raises(Exception, match="Not all vectors were same length"):
+        ColumnChart._validate_data([[1, 2, 3], [4, 5]])

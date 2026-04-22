@@ -431,9 +431,24 @@ class Chart(Svg):
             ]
             return
 
-        # For x_stacked horizontal bars, each series starts from zero
-        # (bars stack visually by drawing order, not cumulative positioning)
-        offsets = [[0] * self.x_count for _ in x_data]
+        # For x_stacked horizontal bars, accumulate offsets per bar index
+        # (mirrors y_offsets logic for vertical stacking)
+        offsets = []
+        negative_offsets = [0] * self.x_count
+        positive_offsets = [0] * self.x_count
+
+        for row in x_data:
+            row_offsets = []
+            for i, x in enumerate(row):
+                current_offset = 0
+                if x >= 0:
+                    current_offset = positive_offsets[i]
+                    positive_offsets[i] += x
+                elif x < 0:
+                    current_offset = negative_offsets[i]
+                    negative_offsets[i] -= abs(x)
+                row_offsets.append(current_offset)
+            offsets.append(row_offsets)
 
         self._x_offsets = [[self.x_axis.reproject(x) for x in arr] for arr in offsets]
 

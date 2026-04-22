@@ -79,3 +79,18 @@ class TestBarChartSadPath:
         chart = BarChart(data=[0, 10, 20], labels=["a", "b", "c"])
         html = chart.html
         assert "svg" in html.lower()
+
+    def test_bar_chart_stacked_with_negative(self):
+        """Test stacked bar chart (x_stacked=True) with negative values."""
+        chart = BarChart(
+            data=[[10, -5, 15], [-10, 15, -5]], labels=["a", "b", "c"], x_stacked=True
+        )
+        html = chart.html
+        assert "svg" in html.lower()
+        assert "NaN" not in html
+
+    def test_bar_chart_get_base_transform(self):
+        """Test that get_base_transform returns empty list."""
+        chart = BarChart(data=[10, 20, 30], labels=["a", "b", "c"])
+        transforms = chart.get_base_transform()
+        assert transforms == []
