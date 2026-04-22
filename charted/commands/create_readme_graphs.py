@@ -1,8 +1,8 @@
 import os
 import random
+
 from charted.charts import ColumnChart, LineChart, ScatterChart
 from charted.utils.defaults import EXAMPLES_DIR
-
 
 y_data = [
     [50, 100, 150, 200, 250, 300, 150, 200, 350, 225],

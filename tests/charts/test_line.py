@@ -4,6 +4,7 @@ This module contains dedicated tests for LineChart functionality.
 """
 
 import pytest
+
 from charted.charts.line import LineChart
 
 

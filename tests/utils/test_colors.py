@@ -1,10 +1,11 @@
 """Tests for color utility functions."""
 
 import pytest
+
 from charted.utils.colors import (
+    complementary_color,
     hex_to_rgb,
     rgb_to_hex,
-    complementary_color,
 )
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from charted.charts.chart import Chart
+from charted.config import get_column_gap
 from charted.html.element import G, Path
 from charted.utils.themes import Theme
 from charted.utils.transform import translate
@@ -14,7 +15,7 @@ class ColumnChart(Chart):
         self,
         data: Vector | Vector2D,
         labels: Labels = None,
-        column_gap: float = 0.50,
+        column_gap: float = None,
         width: float = 500,
         height: float = 500,
         zero_index: bool = True,
@@ -23,6 +24,8 @@ class ColumnChart(Chart):
         series_names: list[str] | None = None,
         y_stacked: bool = True,
     ):
+        if column_gap is None:
+            column_gap = get_column_gap()
         self.column_gap = column_gap
         self.y_stacked = y_stacked
         super().__init__(

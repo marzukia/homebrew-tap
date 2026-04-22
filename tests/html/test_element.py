@@ -1,4 +1,4 @@
-from charted.html.element import G, Element, Path, Svg, Text
+from charted.html.element import Element, G, Path, Svg, Text
 
 
 class TestElement:

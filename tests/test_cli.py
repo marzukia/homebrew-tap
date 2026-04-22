@@ -9,12 +9,11 @@ import sys
 import tempfile
 from pathlib import Path
 
-
 import pytest
 
 from charted.__main__ import main
-from charted.cli.create import load_data
 from charted.cli.batch import _infer_chart_type
+from charted.cli.create import load_data
 
 
 class TestCLIEntryHappyPath:
@@ -271,8 +270,9 @@ class TestBatchCommand:
             json.dump(column_data, f)
 
         # Run batch command
-        from charted.cli.batch import batch_command
         import argparse
+
+        from charted.cli.batch import batch_command
 
         args = argparse.Namespace(
             input_dir=str(input_dir), output_dir=str(output_dir), config=None
@@ -289,8 +289,9 @@ class TestBatchCommand:
         output_dir = tmp_path / "output"
         input_dir.mkdir()
 
-        from charted.cli.batch import batch_command
         import argparse
+
+        from charted.cli.batch import batch_command
 
         args = argparse.Namespace(
             input_dir=str(input_dir), output_dir=str(output_dir), config=None
@@ -303,8 +304,9 @@ class TestBatchCommand:
 
     def test_batch_command_nonexistent_directory(self, tmp_path):
         """Test batch command with nonexistent input directory."""
-        from charted.cli.batch import batch_command
         import argparse
+
+        from charted.cli.batch import batch_command
 
         args = argparse.Namespace(
             input_dir=str(tmp_path / "nonexistent"),

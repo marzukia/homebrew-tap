@@ -1,6 +1,7 @@
 """Test suite for axis rendering (XAxis, YAxis)."""
 
 import pytest
+
 from charted.charts.axes import XAxis, YAxis
 
 

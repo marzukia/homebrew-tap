@@ -1,12 +1,12 @@
 """Tests for theme loading and utilities."""
 
 from charted.utils.themes import (
-    Theme,
-    DEFAULT_THEME,
-    PRESET_THEMES,
     DARK_THEME,
-    LIGHT_THEME,
+    DEFAULT_THEME,
     HIGH_CONTRAST_THEME,
+    LIGHT_THEME,
+    PRESET_THEMES,
+    Theme,
 )
 
 

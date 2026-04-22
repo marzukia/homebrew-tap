@@ -7,7 +7,6 @@ from .line import LineChart
 from .pie import PieChart
 from .scatter import ScatterChart
 
-
 __all__ = [
     "BarChart",
     "ColumnChart",

@@ -1,10 +1,10 @@
-from collections import defaultdict
 import functools
 import math
+from collections import defaultdict
 
+from charted.fonts.wrapper import Font
 from charted.utils.defaults import DEFAULT_FONT, DEFAULT_FONT_SIZE
 from charted.utils.types import MeasuredText, Vector
-from charted.fonts.wrapper import Font
 
 
 @functools.lru_cache(maxsize=512)

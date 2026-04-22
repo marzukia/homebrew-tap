@@ -18,6 +18,7 @@ Charted searches upward from your current directory to find a config file.
 ```toml
 # Font settings
 font = "Helvetica"        # Default font family
+                        # Bundled fonts: Helvetica, Arial, Roboto, JetBrains Mono, Fira Code, Inter, Lato
 font_size = 12            # Default font size in points
 title_font_size = 16      # Title font size in points
 
@@ -35,12 +36,43 @@ colors = [
 ]
 ```
 
+### Bar Chart Defaults
+
+```toml
+[bar]
+bar_gap = 0.50          # Gap between bars as fraction of bar width (0.0-1.0)
+```
+
+### Column Chart Defaults
+
+```toml
+[column]
+column_gap = 0.50       # Gap between columns as fraction of column width (0.0-1.0)
+```
+
 ### Pie Chart Defaults
 
 ```toml
 [pie]
 explode = 0.1           # Distance to separate slices (0.0-1.0)
-start_angle = 0         # Starting angle in degrees
+start_angle = 0         # Starting angle in degrees (0-360)
+label_font_size = 14    # Font size for slice labels in points
+```
+
+### Chart-Specific Themes
+
+You can define theme overrides for specific chart types:
+
+```toml
+[charts.pie]
+# Pie-specific theme overrides
+# These merge with the base theme
+
+[charts.bar]
+# Bar-specific theme overrides
+
+[charts.column]
+# Column-specific theme overrides
 ```
 
 ## Usage

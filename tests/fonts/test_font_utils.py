@@ -2,8 +2,9 @@
 
 import json
 import os
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 from charted.utils.defaults import BASE_DEFINITIONS_DIR
 
@@ -67,7 +68,7 @@ class TestFontLoadingHappyPath:
         from charted.utils import defaults
 
         assert hasattr(defaults, "DEFAULT_FONT")
-        assert defaults.DEFAULT_FONT in ("Helvetica", "Arial")
+        assert defaults.DEFAULT_FONT in ("Helvetica", "Arial", "JetBrains Mono")
 
 
 class TestFontMeasurementSadPath:

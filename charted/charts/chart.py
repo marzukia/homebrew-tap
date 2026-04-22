@@ -1,4 +1,5 @@
 from charted.charts.axes import Axis, XAxis, YAxis
+from charted.config import get_chart_theme
 from charted.html.element import G, Path, Rect, Svg, Text
 from charted.utils.colors import generate_complementary_colors
 from charted.utils.defaults import DEFAULT_COLORS
@@ -11,7 +12,6 @@ from charted.utils.helpers import (
 from charted.utils.themes import Theme
 from charted.utils.transform import translate
 from charted.utils.types import Labels, MeasuredText, Vector, Vector2D
-from charted.config import get_chart_theme
 
 
 class Chart(Svg):
@@ -166,9 +166,11 @@ class Chart(Svg):
             data=self.x_data,
             labels=x_labels,
             stacked=self.x_stacked,
-            zero_index=False
-            if (x_data is not None and x_labels is not None)
-            else self.zero_index,
+            zero_index=(
+                False
+                if (x_data is not None and x_labels is not None)
+                else self.zero_index
+            ),
             config=self.theme["v_grid"],
         )
 

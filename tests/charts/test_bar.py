@@ -4,6 +4,7 @@ This module contains dedicated tests for BarChart functionality.
 """
 
 import pytest
+
 from charted.charts.bar import BarChart
 
 

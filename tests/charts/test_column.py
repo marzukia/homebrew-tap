@@ -4,6 +4,7 @@ This module contains dedicated tests for ColumnChart functionality.
 """
 
 import pytest
+
 from charted.charts.column import ColumnChart
 
 

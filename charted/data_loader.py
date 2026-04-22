@@ -9,7 +9,6 @@ __all__ = ["load_data", "load_csv", "load_json"]
 import csv
 import json
 from pathlib import Path
-from typing import Any
 
 
 def load_data(
@@ -136,7 +135,8 @@ def _load_json(path: Path) -> tuple[list[str], list[float], list[str]]:
 
             if value_key is None:
                 raise ValueError(
-                    f"No numeric value key found in JSON objects. Available keys: {list(data[0].keys())}"
+                    f"No numeric value key found in JSON objects. "
+                    f"Available keys: {list(data[0].keys())}"
                 )
 
             x_data = [str(item.get(label_key, i)) for i, item in enumerate(data)]
@@ -146,7 +146,8 @@ def _load_json(path: Path) -> tuple[list[str], list[float], list[str]]:
             return x_data, y_data, labels
 
     elif isinstance(data, dict):
-        # Object with explicit data and labels: {"data": [1,2,3], "labels": ["a","b","c"]}
+        # Object with explicit data and labels
+        # {"data": [1,2,3], "labels": ["a","b","c"]}
         if "data" in data and "labels" in data:
             x_data = [str(x) for x in data["labels"]]
             y_data = [float(x) for x in data["data"]]
@@ -159,9 +160,10 @@ def _load_json(path: Path) -> tuple[list[str], list[float], list[str]]:
             y_data = [float(v) for v in data.values()]
             labels = [path.stem]
             return x_data, y_data, labels
-
     raise ValueError(
-        f"Unsupported JSON structure in {path}. Expected array of numbers, array of objects, or object with 'data' and 'labels'"
+        f"Unsupported JSON structure in {path}. "
+        "Expected array of numbers, array of objects, "
+        "or object with 'data' and 'labels'"
     )
 
 

@@ -2,7 +2,6 @@ import argparse
 
 from charted.fonts.utils import create_font_definition
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Create a font definition for specified font within specified range."

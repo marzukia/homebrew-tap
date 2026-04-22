@@ -7,7 +7,6 @@ from pathlib import Path
 
 from ..charts import BarChart, ColumnChart, LineChart, PieChart, ScatterChart
 
-
 CHART_TYPES = {
     "bar": BarChart,
     "column": ColumnChart,

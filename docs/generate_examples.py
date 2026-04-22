@@ -12,7 +12,7 @@ import os
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "examples")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-from charted.charts import BarChart, ColumnChart, LineChart, ScatterChart, PieChart
+from charted.charts import BarChart, ColumnChart, LineChart, PieChart, ScatterChart
 
 
 def save(name: str, svg: str) -> None:

@@ -1,8 +1,6 @@
 """Tests for data loading utilities."""
 
 import json
-import tempfile
-from pathlib import Path
 
 import pytest
 
@@ -49,11 +47,13 @@ class TestLoadData:
         """Test loading JSON array of objects."""
         json_file = tmp_path / "data.json"
         json_file.write_text(
-            json.dumps([
-                {"label": "Q1", "value": 120},
-                {"label": "Q2", "value": 180},
-                {"label": "Q3", "value": 210},
-            ])
+            json.dumps(
+                [
+                    {"label": "Q1", "value": 120},
+                    {"label": "Q2", "value": 180},
+                    {"label": "Q3", "value": 210},
+                ]
+            )
         )
 
         x, y, labels = load_data(json_file)
@@ -66,11 +66,13 @@ class TestLoadData:
         """Test loading JSON object with data and labels."""
         json_file = tmp_path / "data.json"
         json_file.write_text(
-            json.dumps({
-                "data": [120, 180, 210],
-                "labels": ["Q1", "Q2", "Q3"],
-                "title": "Sales"
-            })
+            json.dumps(
+                {
+                    "data": [120, 180, 210],
+                    "labels": ["Q1", "Q2", "Q3"],
+                    "title": "Sales",
+                }
+            )
         )
 
         x, y, labels = load_data(json_file)
@@ -155,7 +157,9 @@ class TestLoadCSV:
         tsv_file = tmp_path / "data.tsv"
         tsv_file.write_text("Quarter\tRevenue\nQ1\t120\n")
 
-        x, y, labels = load_csv(tsv_file, x_col="Quarter", y_col="Revenue", delimiter="\t")
+        x, y, labels = load_csv(
+            tsv_file, x_col="Quarter", y_col="Revenue", delimiter="\t"
+        )
 
         assert x == ["Q1"]
         assert y == [120.0]

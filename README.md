@@ -1,6 +1,6 @@
-![charted-logo](https://github.com/marzukia/charted/blob/main/docs/_static/charted-logo.png?raw=true)
+![charted-logo](https://github.com/peepercat/charted/blob/main/docs/_static/charted-logo.png?raw=true)
 
-[![codecov](https://codecov.io/github/marzukia/charted/graph/badge.svg?token=X5HJF0R2FJ)](https://codecov.io/github/marzukia/charted) [![charted-ci](https://github.com/marzukia/charted/actions/workflows/ci.yml/badge.svg)](https://github.com/marzukia/charted/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/github/peepercat/charted/graph/badge.svg?token=X5HJF0R2FJ)](https://codecov.io/github/peepercat/charted) [![charted-ci](https://github.com/peepercat/charted/actions/workflows/ci.yml/badge.svg)](https://github.com/peepercat/charted/actions/workflows/ci.yml)
 
 Charted is a zero dependency SVG chart generator that aims to provide a simple interface for generating beautiful and customisable graphs. This project is inspired by chart libraries like `mermaid.js`.
 
@@ -163,7 +163,12 @@ python -m charted create --help
 python -m charted batch --help
 ```
 
-See [Configuration](config.md) for project-level settings that apply to both Python and CLI usage.
+See [Configuration](docs/config.md) for comprehensive documentation on all configuration options including:
+
+- **Basic settings** — fonts, dimensions, color palette
+- **Chart-specific defaults** — bar_gap, column_gap, pie label settings
+- **Chart-specific themes** — per-chart-type theme overrides
+- **CLI integration** — how config works with command-line usage
 
 ## Installation
 
@@ -180,10 +185,12 @@ pip install charted
 I've tried to avoid using `tkinter` in this library as it can be fiddly to install depending on your OS. However, it's still partially used if you're looking to expand Charted. Instead of using `tkinter` to calculate text dimensions on the fly, font definitions are created in `fonts/definitions/`.
 
 New font definitions can be created by using:
-
 ```sh
 uv run python charted/commands/create_font_definition.py Helvetica
 ```
+
+
+
 
 
 ## Examples

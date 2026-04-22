@@ -1,6 +1,7 @@
 """Tests for tkinter font utilities with display fallback."""
 
 import os
+
 import pytest
 
 # Try to detect if tkinter is available; if not, skip all tests in this module
@@ -13,7 +14,7 @@ except ImportError:
     class TextMeasurer:
         pass
 else:
-    from unittest.mock import patch, MagicMock
+    from unittest.mock import MagicMock, patch
 
     from charted.fonts.tkinter import TextMeasurer
 

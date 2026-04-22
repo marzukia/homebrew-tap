@@ -24,7 +24,6 @@ from charted.charts.column import ColumnChart
 from charted.charts.line import LineChart
 from charted.charts.scatter import ScatterChart
 
-
 # ============================================================
 # SVG Structure Comparison (Cross-platform safe)
 # ============================================================
@@ -136,8 +135,6 @@ def test_bar_chart_multi_series():
     with open(baseline_path, "r") as f:
         baseline_svg = f.read()
     assert svgs_equal(chart.html, baseline_svg)
-
-
 
 
 # ============================================================

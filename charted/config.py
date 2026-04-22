@@ -17,7 +17,6 @@ from .utils.defaults import (
     DEFAULT_TITLE_FONT_SIZE,
 )
 
-
 CONFIG_FILENAMES = [".chartedrc.toml", ".chartedrc", "charted.toml"]
 
 
@@ -48,6 +47,8 @@ def load_config(config_path: str | Path | None = None) -> dict:
         "theme": None,
         "charts": {},
         "pie": {},
+        "bar": {},
+        "column": {},
     }
 
     if config_path is None:
@@ -63,7 +64,7 @@ def load_config(config_path: str | Path | None = None) -> dict:
     try:
         with open(path, "rb") as f:
             loaded = tomllib.load(f)
-    except Exception:
+    except (tomllib.TOMLDecodeError, OSError):
         return defaults
 
     # Merge loaded config with defaults
@@ -124,6 +125,51 @@ def get_title_font(config: dict | None = None) -> Font:
         size=config.get("title_font_size", DEFAULT_TITLE_FONT_SIZE),
         definitions_dir=BASE_DEFINITIONS_DIR,
     )
+
+
+def get_bar_gap(config: dict | None = None) -> float:
+    """Get bar gap setting from config.
+
+    Args:
+        config: Config dict from load_config(). Uses defaults if None.
+
+    Returns:
+        Bar gap value (default 0.50).
+    """
+    if config is None:
+        config = load_config()
+
+    return config.get("bar", {}).get("bar_gap", 0.50)
+
+
+def get_column_gap(config: dict | None = None) -> float:
+    """Get column gap setting from config.
+
+    Args:
+        config: Config dict from load_config(). Uses defaults if None.
+
+    Returns:
+        Column gap value (default 0.50).
+    """
+    if config is None:
+        config = load_config()
+
+    return config.get("column", {}).get("column_gap", 0.50)
+
+
+def get_pie_label_font_size(config: dict | None = None) -> int:
+    """Get pie label font size from config.
+
+    Args:
+        config: Config dict from load_config(). Uses defaults if None.
+
+    Returns:
+        Pie label font size (default 14).
+    """
+    if config is None:
+        config = load_config()
+
+    return config.get("pie", {}).get("label_font_size", 14)
 
 
 def get_font_definitions_dir() -> str:

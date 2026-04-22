@@ -1,4 +1,5 @@
 import math
+
 from charted.html.element import G, Path, Text
 from charted.utils.defaults import DEFAULT_FONT, DEFAULT_FONT_SIZE
 from charted.utils.helpers import (
@@ -348,10 +349,7 @@ class YAxis(Axis):
                 for i in range(len(self.values))
             ]
 
-        return [
-            self.reproject(i + abs(offset))
-            for i in reversed(self.values)
-        ]
+        return [self.reproject(i + abs(offset)) for i in reversed(self.values)]
 
     @property
     def grid_lines(self) -> Path:

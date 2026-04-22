@@ -1,6 +1,5 @@
 from typing import NamedTuple
 
-
 Labels = list[str]
 
 Vector = list[float]

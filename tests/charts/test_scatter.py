@@ -4,6 +4,7 @@ This module contains dedicated tests for ScatterChart functionality.
 """
 
 import pytest
+
 from charted.charts.scatter import ScatterChart
 
 

@@ -14,5 +14,6 @@ def test_nested_defaultdict():
 
 def test_base_dir():
     from charted.utils.defaults import BASE_DEFINITIONS_DIR
+
     assert os.path.isdir(BASE_DIR)
     assert os.path.isdir(BASE_DEFINITIONS_DIR)

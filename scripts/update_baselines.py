@@ -8,6 +8,7 @@ After running, commit both the updated SVGs and the new MANIFEST.
 Usage:
     python scripts/update_baselines.py
 """
+
 import hashlib
 import json
 import pathlib
@@ -31,13 +32,15 @@ CHARTS = {
     # Bar charts
     "bar_basic": BarChart(data=[1, 2, 3], labels=["a", "b", "c"]),
     "bar_multi": BarChart(data=[[1, 2, 3], [3, 2, 1]], labels=["a", "b", "c"]),
-    "bar_stacked": BarChart(data=[[1, 2, 3], [3, 2, 1]], labels=["a", "b", "c"], x_stacked=True),
-    
+    "bar_stacked": BarChart(
+        data=[[1, 2, 3], [3, 2, 1]], labels=["a", "b", "c"], x_stacked=True
+    ),
     # Column charts
     "column_basic": ColumnChart(data=[1, 2, 3], labels=["a", "b", "c"]),
     "column_stacked": ColumnChart(data=[[1, 2, 3], [2, 3, 4]], labels=["a", "b", "c"]),
-    "column_sidebyside": ColumnChart(data=[[1, 2, 3], [3, 2, 1]], labels=["a", "b", "c"], y_stacked=False),
-    
+    "column_sidebyside": ColumnChart(
+        data=[[1, 2, 3], [3, 2, 1]], labels=["a", "b", "c"], y_stacked=False
+    ),
     # Line charts
     "line_basic": LineChart(data=[1, 2, 3], labels=["a", "b", "c"]),
     "line_multi": LineChart(
@@ -45,11 +48,13 @@ CHARTS = {
         labels=["a", "b", "c"],
         series_names=["Series 1", "Series 2"],
     ),
-    
     # Pie charts
-    "pie": PieChart(data=[45, 30, 15, 10], labels=["Electronics", "Clothing", "Food", "Other"]),
-    "pie_doughnut": PieChart(data=[30, 40, 30], labels=["A", "B", "C"], inner_radius=50),
-    
+    "pie": PieChart(
+        data=[45, 30, 15, 10], labels=["Electronics", "Clothing", "Food", "Other"]
+    ),
+    "pie_doughnut": PieChart(
+        data=[30, 40, 30], labels=["A", "B", "C"], inner_radius=50
+    ),
     # Scatter charts
     "scatter_basic": ScatterChart(x_data=[1, 2, 3], y_data=[1, 2, 3]),
     "scatter_multi": ScatterChart(
@@ -80,7 +85,7 @@ def main():
         print(f"  updated {name}.svg ({h[:16]}...)")
 
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"\nMANIFEST.sha256 updated — commit baselines/ + MANIFEST together.")
+    print("\nMANIFEST.sha256 updated — commit baselines/ + MANIFEST together.")
 
 
 if __name__ == "__main__":

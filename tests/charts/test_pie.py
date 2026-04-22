@@ -6,6 +6,7 @@ This module contains dedicated tests for PieChart functionality.
 import math
 
 import pytest
+
 from charted.charts.pie import PieChart
 
 

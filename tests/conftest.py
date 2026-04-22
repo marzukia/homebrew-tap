@@ -5,6 +5,7 @@ To legitimately update baselines run:
     python scripts/update_baselines.py
 which regenerates both the SVGs and MANIFEST.sha256.
 """
+
 import hashlib
 import json
 import pathlib
@@ -21,9 +22,7 @@ def _make_readonly(path: pathlib.Path) -> None:
 
 
 def _make_writable(path: pathlib.Path) -> None:
-    path.chmod(
-        stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH
-    )
+    path.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 
 
 @pytest.fixture(autouse=True, scope="session")

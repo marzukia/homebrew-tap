@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from charted.charts.chart import Chart
+from charted.config import get_bar_gap
 from charted.html.element import G, Path
 from charted.utils.themes import Theme
 from charted.utils.types import Labels, Vector, Vector2D
@@ -11,7 +12,7 @@ class BarChart(Chart):
         self,
         data: Vector | Vector2D,
         labels: Labels = None,
-        bar_gap: float = 0.50,
+        bar_gap: float = None,
         width: float = 500,
         height: float = 500,
         zero_index: bool = True,
@@ -20,6 +21,8 @@ class BarChart(Chart):
         series_names: list[str] | None = None,
         x_stacked: bool = False,
     ):
+        if bar_gap is None:
+            bar_gap = get_bar_gap()
         self.bar_gap = bar_gap
         self.x_stacked = x_stacked
 
