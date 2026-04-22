@@ -5,7 +5,7 @@ from charted.config import get_column_gap
 from charted.html.element import G, Path
 from charted.utils.themes import Theme
 from charted.utils.transform import translate
-from charted.utils.types import Labels, Vector, Vector2D
+from charted.utils.types import Labels, SeriesStyleConfig, Vector, Vector2D
 
 
 class ColumnChart(Chart):
@@ -23,6 +23,7 @@ class ColumnChart(Chart):
         theme: Theme | None = None,
         series_names: list[str] | None = None,
         y_stacked: bool = True,
+        series_styles: list[SeriesStyleConfig] | None = None,
     ):
         if column_gap is None:
             column_gap = get_column_gap()
@@ -38,6 +39,7 @@ class ColumnChart(Chart):
             theme=theme,
             series_names=series_names,
             chart_type="column",
+            series_styles=series_styles,
         )
 
     @property
@@ -61,17 +63,21 @@ class ColumnChart(Chart):
         )
 
         if self.y_stacked:
-            for y_values, y_offsets, x_values, color in zip(
-                self.y_values,
-                self.y_offsets,
-                self.x_values,
-                self.colors,
+            for series_idx, (y_values, y_offsets, x_values, color) in enumerate(
+                zip(self.y_values, self.y_offsets, self.x_values, self.colors)
             ):
+                # Apply fill override from series_styles
+                fill = color
+                if self.series_styles and series_idx < len(self.series_styles):
+                    style = self.series_styles[series_idx] or {}
+                    if style.get("fill"):
+                        fill = style["fill"]
+
                 paths = []
                 for x, y, y_offset in zip(x_values, y_values, y_offsets):
                     x += self.x_offset
                     paths.append(Path.get_path(x, y_offset, self.x_width, y))
-                g.add_child(Path(d=paths, fill=color))
+                g.add_child(Path(d=paths, fill=fill))
         else:
             # side-by-side mode
             num_series = len(self.y_values) if self.y_values else 1

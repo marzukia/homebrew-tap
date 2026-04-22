@@ -11,7 +11,13 @@ from charted.utils.helpers import (
 )
 from charted.utils.themes import Theme
 from charted.utils.transform import translate
-from charted.utils.types import Labels, MeasuredText, Vector, Vector2D
+from charted.utils.types import (
+    Labels,
+    MeasuredText,
+    SeriesStyleConfig,
+    Vector,
+    Vector2D,
+)
 
 
 class Chart(Svg):
@@ -93,6 +99,7 @@ class Chart(Svg):
         zero_index: bool = True,
         x_data: Vector | Vector2D | None = None,
         y_data: Vector | Vector2D | None = None,
+        series_styles: list[SeriesStyleConfig] | None = None,
         x_labels: Labels | None = None,
         y_labels: Labels | None = None,
         series_names: list[str] | None = None,
@@ -115,6 +122,7 @@ class Chart(Svg):
             x_labels = [" " for i in range(array_len)]
 
         self.series_names = series_names
+        self.series_styles = series_styles
         self.x_stacked = x_stacked
         self.series_names = series_names
         self.x_stacked = x_stacked

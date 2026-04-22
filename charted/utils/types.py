@@ -1,4 +1,21 @@
-from typing import NamedTuple
+from typing import NamedTuple, TypedDict
+
+
+class SeriesStyleConfig(TypedDict, total=False):
+    """Per-series styling overrides."""
+
+    fill: str | None
+    stroke: str | None
+    stroke_width: float | None
+    stroke_dasharray: str | None
+    marker_size: float | None
+    fill_opacity: float | None
+    stroke_opacity: float | None
+    area_fill: bool | None
+    area_fill_opacity: float | None
+
+
+Labels = list[str]
 
 Labels = list[str]
 

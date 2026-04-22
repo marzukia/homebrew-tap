@@ -4,7 +4,7 @@ from charted.charts.chart import Chart
 from charted.config import get_bar_gap
 from charted.html.element import G, Path
 from charted.utils.themes import Theme
-from charted.utils.types import Labels, Vector, Vector2D
+from charted.utils.types import Labels, SeriesStyleConfig, Vector, Vector2D
 
 
 class BarChart(Chart):
@@ -19,6 +19,7 @@ class BarChart(Chart):
         title: str | None = None,
         theme: Theme | None = None,
         series_names: list[str] | None = None,
+        series_styles: list[SeriesStyleConfig] | None = None,
         x_stacked: bool = False,
     ):
         if bar_gap is None:
@@ -53,6 +54,7 @@ class BarChart(Chart):
             series_names=series_names,
             x_stacked=x_stacked,
             chart_type="bar",
+            series_styles=series_styles,
         )
 
     @property

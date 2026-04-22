@@ -2,6 +2,7 @@ import copy
 from typing import Optional, TypedDict
 
 from charted.utils.defaults import DEFAULT_COLORS, DEFAULT_FONT, DEFAULT_TITLE_FONT_SIZE
+from charted.utils.types import SeriesStyleConfig
 
 
 class LegendConfig(TypedDict):
@@ -35,6 +36,7 @@ class Theme(TypedDict):
     colors: list[str] | None
     v_grid: GridConfig | None
     h_grid: GridConfig | None
+    series_style: SeriesStyleConfig | None  # Default style for all series
 
     @classmethod
     def load(cls, theme: Optional["Theme"] | str = None) -> "Theme":
@@ -94,6 +96,7 @@ DARK_THEME = Theme(
         h_padding=0.05,
         v_padding=0.05,
     ),
+    series_style=None,
 )
 
 LIGHT_THEME = Theme(
@@ -119,10 +122,11 @@ LIGHT_THEME = Theme(
     h_grid=GridConfig(
         stroke="#E0E0E0",
         stroke_dasharray="2,2",
-    ),
-    padding=PaddingConfig(
-        h_padding=0.05,
-        v_padding=0.05,
+        padding=PaddingConfig(
+            h_padding=0.05,
+            v_padding=0.05,
+        ),
+        series_style=None,
     ),
 )
 
@@ -154,6 +158,7 @@ HIGH_CONTRAST_THEME = Theme(
         h_padding=0.05,
         v_padding=0.05,
     ),
+    series_style=None,
 )
 
 PRESET_THEMES = {
