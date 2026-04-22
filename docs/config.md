@@ -118,3 +118,108 @@ python -m charted create bar output.svg --data data.csv
 # Override config with explicit config path
 python -m charted create column chart.svg -d sales.csv -c /path/to/config.toml
 ```
+
+## Advanced Configuration
+
+### Environment Variables
+
+Override config values via environment variables:
+
+```bash
+export CHARTED_WIDTH=800
+export CHARTED_HEIGHT=500
+export CHARTED_THEME=dark
+export CHARTED_FONT=Roboto
+```
+
+### Programmatic Configuration
+
+Load and modify config in Python:
+
+```python
+from charted.config import load_config, save_config
+
+config = load_config()
+config["width"] = 800
+config["theme"] = "dark"
+save_config(config, path="/path/to/custom/.chartedrc.toml")
+```
+
+### Chart-Specific Defaults
+
+Configure defaults per chart type:
+
+```toml
+[bar]
+bar_gap = 0.3
+
+[column]
+column_gap = 0.6
+
+[pie]
+explode = 0.15
+start_angle = 90
+label_font_size = 12
+```
+
+### Complete Example
+
+Full `.chartedrc.toml` example:
+
+```toml
+font = "Roboto"
+font_size = 12
+title_font_size = 16
+width = 800
+height = 600
+theme = "light"
+
+colors = [
+    "#5fab9e",
+    "#f58b51",
+    "#f7dd72",
+    "#db504a",
+    "#2e4756"
+]
+
+[bar]
+bar_gap = 0.4
+
+[column]
+column_gap = 0.5
+
+[pie]
+explode = 0.1
+start_angle = 0
+label_font_size = 14
+
+[legend]
+position = "topright"
+font_size = 11
+font_color = "#666666"
+padding = 0.25
+```
+
+## Troubleshooting
+
+### Config Not Loading
+
+```python
+from charted.config import find_config
+config_path = find_config()
+print(f"Config found at: {config_path}")
+```
+
+### Overriding Config Programmatically
+
+```python
+from charted import BarChart
+
+chart = BarChart(
+    data=[120, 180, 210],
+    labels=["Q1", "Q2", "Q3"],
+    width=1000,
+    height=700,
+    theme="dark"
+)
+```
