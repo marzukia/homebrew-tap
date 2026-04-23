@@ -63,12 +63,6 @@ charted provides 5 chart types, all with consistent API:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting Started
-
-   getting_started
-
-.. toctree::
-   :maxdepth: 2
    :caption: Chart Types
 
    charts/column
@@ -83,12 +77,6 @@ charted provides 5 chart types, all with consistent API:
 
    api/charts
    api/themes
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Configuration
-
-   config
 
 Advanced Features
 -----------------
@@ -209,8 +197,6 @@ charted includes 3 built-in themes plus full custom theme support. See the `Them
 - Merging custom overrides with built-in themes
 - Creating and registering custom themes
 
-
-
 Configuration
 ~~~~~~~~~~~~~
 
@@ -234,17 +220,8 @@ charted uses font definitions instead of runtime font rendering for zero-depende
 Available fonts: Arial, Inter, Roboto, Helvetica, Lato, Fira Code, JetBrains Mono.
 
 Examples
+~~~~~~~~
 
 .. include:: ../README.md
    :start-after: ## Examples
-   :end-before: ## Installation
---------
-
-See the `Chart Type Guides <charts/column.html>`_ for detailed examples of each chart type with real-world use cases.
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   :end-before: ##

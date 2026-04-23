@@ -201,29 +201,31 @@ Common Methods
 
 All chart types share these methods:
 
-.. autosummary::
+.. py:method:: to_svg()
 
-   Chart.to_svg
-   Chart.save
-   Chart.to_markdown
-   Chart._repr_html_
+   Generate the SVG string representation of the chart.
 
-   to_svg()
-      Generate the SVG string representation of the chart.
+.. py:method:: save(filepath)
 
-   save(filepath)
-      Save the chart to a file. Supports .svg extension.
+   Save the chart to a file. Supports .svg extension.
 
-   to_markdown(path=None)
-      Generate markdown embedding. If path is provided, uses image reference. Otherwise returns inline data URL.
+.. py:method:: to_markdown(path=None)
 
-   _repr_html_()
-      IPython/Jupyter integration — returns HTML with inline SVG.
+   Generate markdown embedding. If path is provided, uses image reference. Otherwise returns inline data URL.
+
+.. py:method:: _repr_html_()
+
+   IPython/Jupyter integration — returns HTML with inline SVG.
 
 Data Loading API
 ----------------
 
 .. autofunction:: charted.load_csv
+
+   Load data from a CSV file.
+
+   **Parameters:**
+
    - ``filepath`` — Path to CSV file
    - ``x_col`` — Column name for X-axis/labels
    - ``y_cols`` — Column name(s) for Y-axis data
@@ -251,8 +253,8 @@ Data Loading API
       // Array of objects
       [{"label": "Q1", "value": 120}, {"label": "Q2", "value": 180}]
 
-       // Object with data and labels
-       {"data": [120, 180, 210], "labels": ["Q1", "Q2", "Q3"], "title": "Sales"}
+      // Object with data and labels
+      {"data": [120, 180, 210], "labels": ["Q1", "Q2", "Q3"], "title": "Sales"}
 
 CLI API
 -------
@@ -264,83 +266,20 @@ charted includes a command-line interface for generating charts without writing 
    # Create a single chart
    python -m charted create <chart_type> <output.svg> --data <input.csv|json>
 
-   # Batch process directory
-   python -m charted batch <input_dir> <output_dir> [-t chart_type]
+   # Batch process
+   python -m charted batch <input_dir> <output_dir>
 
-   # Show help
-   python -m charted --help
-   python -m charted create --help
+Theme API
+---------
 
-**Chart Types:** bar, column, line, scatter, pie
+.. autofunction:: charted.get_theme
 
-Full CLI Reference
-~~~~~~~~~~~~~~~~~~
+   Get a built-in theme by name or return a custom theme dictionary.
 
-**Create Command:**
+   **Parameters:**
 
-.. code-block:: bash
+   - ``theme_name`` — Theme name string or theme dictionary
 
-   python -m charted create <chart_type> <output.svg> [options]
+   **Returns:** Theme dictionary with chart styling
 
-   Options:
-     <chart_type>      bar, column, line, scatter, or pie
-     <output.svg>      Output file path (must end in .svg)
-     -d, --data        Input data file (.csv or .json)
-     -c, --config      Optional config file (.chartedrc.toml)
-
-   Examples:
-     # Create bar chart from CSV
-     python -m charted create bar sales.svg --data sales.csv
-
-     # Create column chart with short flags
-     python -m charted create column chart.svg -d data.json
-
-     # Use custom config
-     python -m charted create line trend.svg --data trend.csv --config .chartedrc.toml
-
-**Batch Command:**
-
-.. code-block:: bash
-
-   python -m charted batch <input_dir> <output_dir> [options]
-
-   Options:
-     <input_dir>       Directory containing .csv or .json files
-     <output_dir>      Output directory for generated .svg files
-     -t, --chart-type  Override chart type inferred from filename
-     -c, --config      Optional config file (.chartedrc.toml)
-
-   Filename Pattern: Files should contain chart type keywords (bar, column, line, pie, scatter)
-   
-   Examples:
-     # Process all files, infer chart type from filename
-     python -m charted batch data/ output/
-
-     # Force all files to be line charts
-     python -m charted batch data/ output/ --chart-type line
-
-     # Use custom config for all charts
-     python -m charted batch data/ output/ -c .chartedrc.toml
-
-**Data Formats:**
-
-CSV: First column is labels, remaining columns are data series
-.. code-block:: csv
-
-   Quarter,Q1,Q2,Q3,Q4
-   Sales,120,180,210,150
-   Profit,80,120,140,100
-
-JSON: Supports arrays, arrays of objects, or structured objects
-.. code-block:: json
-
-   [120, 180, 210, 150]
-   [{"label": "Q1", "value": 120}, {"label": "Q2", "value": 180}]
-   {"data": [120, 180], "labels": ["Q1", "Q2"], "title": "Sales"}
-
-**Error Handling:**
-
-CLI provides helpful error messages with suggestions:
-- Missing data file → check file path
-- Unsupported format → use .csv or .json only
-- Invalid chart type → use bar, column, line, scatter, or pie
+Built-in themes: ``"dark"``, ``"light"``, ``"high-contrast"``, ``"blue"``, ``"green"``, ``"purple"``, ``"orange"``, ``"red"``, ``"pastel"``, ``"vibrant"``.
